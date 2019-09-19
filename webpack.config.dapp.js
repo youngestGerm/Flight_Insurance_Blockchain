@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+// Running on development mode
 module.exports = {
   entry: ['babel-polyfill', path.join(__dirname, "src/dapp")],
   output: {

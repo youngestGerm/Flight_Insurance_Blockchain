@@ -9,12 +9,10 @@ let web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('htt
 web3.eth.defaultAccount = web3.eth.accounts[0];
 let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
 
-
-flightSuretyApp.events.OracleRequest({
-    fromBlock: 0
-  }, function (error, event) {
+// This is how to retrieve event data
+flightSuretyApp.events.OracleRequest({fromBlock: 0}, function (error, event) {
     if (error) console.log(error)
-    console.log(event)
+    console.log(event.returnValues)
 });
 
 const app = express();

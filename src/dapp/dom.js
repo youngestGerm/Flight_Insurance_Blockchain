@@ -1,5 +1,6 @@
 // Source: https://hackernoon.com/how-i-converted-my-react-app-to-vanillajs-and-whether-or-not-it-was-a-terrible-idea-4b14b1b2faff
 
+// Export default basically allows the import variable to be named however. It doesn't need to be named DOM.
 export default class DOM {
 
     static a = (...args) => DOM.makeElement(`a`, ...args);
