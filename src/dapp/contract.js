@@ -32,16 +32,20 @@ export default class Contract {
        this.flightSuretyApp.methods.isOperational().call({ from: this.owner}, callback);
     }
 
+    // Integrate first register airlines
+    // Update the HTML page to accept new airlines 
+    // Expand on tests
+    
     fetchFlightStatus(flight, callback) {
         let payload = {
             airline: this.airlines[0],
             flight: flight,
             timestamp: Math.floor(Date.now() / 1000)
         } 
-        console.log(this.owner, "line 41")
 
         this.flightSuretyApp.methods.fetchFlightStatus(payload.airline, payload.flight, payload.timestamp)
             .send({ from: this.owner}, (error, result) => {
+                // result returns the transactionHash
                 callback(error, payload);
             });
     }

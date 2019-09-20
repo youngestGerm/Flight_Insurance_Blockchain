@@ -27,6 +27,10 @@ module.exports = {
             exclude: /node_modules/
         }]
     },
+     /**
+     * By using the plugin `StartServerPlugin('server.js')`, we can start the server at that specific file.
+     */ 
+    
     plugins: [
         new StartServerPlugin('server.js'),
         new webpack.NamedModulesPlugin(),
