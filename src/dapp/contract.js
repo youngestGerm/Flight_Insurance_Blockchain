@@ -9,7 +9,7 @@ export default class Contract {
         let config = Config[network];
         this.web3 = new Web3(new Web3.providers.HttpProvider(config.url));
         this.flightSuretyApp = new this.web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
-        this.flightSuretyData = new this.web3.eth.Contract(FlightSuretyData.abi, config.dataAddress);
+        // this.flightSuretyData = new this.web3.eth.Contract(FlightSuretyData.abi, config.dataAddress);
         this.initialize(callback);
         this.owner = null;
         this.airlines = [];
@@ -17,12 +17,16 @@ export default class Contract {
     }
 
     initialize(callback) {
+        // We are getting the 50 accounts set up in ganache
         this.web3.eth.getAccounts((error, accts) => {
             this.owner = accts[0];
             let counter = 1;
+            // Starting from the second account we are adding accounts into airlines object until the 4 account
             while(this.airlines.length < 5) {
                 this.airlines.push(accts[counter++]);
             }
+            // This while is similar to the one above, except we start on the 6th index, end on the 10th index. 
+            // 5 addresses in passengers in total.
             while(this.passengers.length < 5) {
                 this.passengers.push(accts[counter++]);
             }
@@ -36,28 +40,31 @@ export default class Contract {
 
     setOperationalApp(decision, callback) {
         this.flightSuretyApp.methods.setOperatingStatus(decision)
-        .send({ from: this.owner}, (err) => {
-            callback(err)
-        });
+        .send({ from: this.owner}, callback);
     }
-/**
- * @Dev Find a way to get the number of registered airlines and register an airline
- */
-    // getRegisteredAirlines() {
-    //     const test = this.flightSuretyApp.methods.getAirlines()
-    //     console.log(test, "test")
-    // }
-    
-    // // Integrate first register airlines
-    // // Update the HTML page to accept new airlines 
-    // // Expand on tests
-    // registerAirline(address, callback) {
-    //     this.flightSuretyApp.methods.registerAirline(address)
-    //     .send({from : this.owner}, (err, result) => {
-    //         // console.log("transaction had")
-    //         callback(err)
-    //     })
-    // }
+    /**
+     * @Dev Find a way to get the number of registered airlines and register an airline.
+     * Here is the issue: I am trying to call a contract with an instance of another contract
+     * FIXED: Forget the `new` in front of the new instance `FlightSuretyData` in the `FlightSuretyApp` constructor.
+     */
+    getRegisteredAirlines(callback) {
+        this.flightSuretyApp.methods.getAirlines().send({from: this.owner}, (error, result) => {
+            console.log(result, "result")
+            callback(result)
+        } )
+
+    }
+    /**
+     * Note that currently, the contract is hooked up so that the front end requires the registered airline to register a new airline.
+     */
+    registerAirline(address, registeredAirline, callback) {
+        this.flightSuretyApp.methods.registerAirline(address)
+        .send({from : registeredAirline}, (err, result) => {
+
+            console.log(result, "registerAirline transaction")
+            callback(err, result)
+        })
+    }
 
     fetchFlightStatus(flight, callback) {
         let payload = {

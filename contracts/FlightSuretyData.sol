@@ -48,6 +48,7 @@ contract FlightSuretyData {
     {
         contractOwner = msg.sender;
         airlines[firstAirline] =  Airline(true, true, false, new bytes32[](0), Votes(0), 0);
+        registeredAirlines.add(1);
     }   
 
     /********************************************************************************************/
@@ -163,7 +164,9 @@ contract FlightSuretyData {
         
         airlines[airlineAddress] = Airline(true, registered, false, new bytes32[](0), Votes(0), 0);
         airlinesCount.add(1);
-        if (registered) {registeredAirlines.add(1);}
+        if (registered) {
+            registeredAirlines.add(1);
+        }
     }
 
     function setAirlineRegistered(address _address) public requireIsOperational requireAirlineExists(_address) {

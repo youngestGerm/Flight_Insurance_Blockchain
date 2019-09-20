@@ -8,9 +8,10 @@ import './flightsurety.css';
 (async() => {
 
     let result = null;
-
+    
+    // INITIALIZATION OF CONTRACT OBJECT
     let contract = new Contract('localhost', async () => {
-             
+        
         // Read transaction
         contract.isOperationalApp((error, result) => {
             if (result) console.log("dapp is operational"); else console.log("dapp is not operational")
@@ -22,7 +23,8 @@ import './flightsurety.css';
             contract.setOperationalApp(true, (err) => { if (err) console.log(err, "there is an error!!"); 
                 // Handle changing text:
                 contract.isOperationalApp((error, result) => {
-                    console.log(result, "result")
+                    if (result) console.log("dapp is operational"); else console.log("dapp is not operational")
+                    // console.log(result, "result operational status")
                     DOM.elid('app-operational-status-message').innerHTML = result ? "Ready to deploy with all functions available" : "Not ready to deploy";
                 });
             })
@@ -33,6 +35,7 @@ import './flightsurety.css';
             contract.setOperationalApp(false, (err) => { if (err) console.log(err, "there is an error!!");  
                 // Handle changing text:
                 contract.isOperationalApp((error, result) => {
+                    if (result) console.log("dapp is operational"); else console.log("dapp is not operational")
                     DOM.elid('app-operational-status-message').innerHTML = result ? "Ready to deploy with all functions available" : "Not ready to deploy";
                 }); 
             })
@@ -40,10 +43,11 @@ import './flightsurety.css';
 
         // Handle registering Airline
         DOM.elid('submit-airline').addEventListener('click', _ => {
-            contract.getRegisteredAirlines()
-            // contract.registerAirline(DOM.elid('flight-register').value, (err) => {
-            //     console.log(err, "error")
-            // })
+            // You need to send through an address of an already registered airline in order to register a new one.
+            const registeredAirline = ""
+            contract.registerAirline(DOM.elid('flight-register').value, registeredAirline, (err, result) => {
+                console.log(err, "error", result)
+            })
         })
         
         // Handle clicking submite oracle
@@ -51,7 +55,7 @@ import './flightsurety.css';
             let flight = DOM.elid('flight-number').value;
             // Write transaction
             contract.fetchFlightStatus(flight, (error, result) => {
-
+                
                 display('Oracles', "oracle-submission", [ { label: 'Fetch Flight Status', error: error, value: result.flight + ' ' + result.timestamp} ]);
             });
         })

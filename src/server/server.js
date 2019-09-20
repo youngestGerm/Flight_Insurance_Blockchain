@@ -33,6 +33,10 @@ flightSuretyApp.events.OperationalChange((err, results) => {
   console.log("\x1b[43m%s\x1b[0m", results.event, results.returnValues[0], "*******Event Return Value********")
 })
 
+flightSuretyApp.events.RegisteredAirline((err, results) => {
+  console.log("\x1b[32m%s\x1b[0m", results.event, results.returnValues[0], "*******Event Return Value********")
+})
+
 const app = express();
 app.get('/api', (req, res) => {
     res.send({

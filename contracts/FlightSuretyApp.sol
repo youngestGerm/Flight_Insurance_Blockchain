@@ -26,11 +26,15 @@ contract FlightSuretyApp {
     uint8 private constant STATUS_CODE_LATE_OTHER = 50;
     address private contractOwner;          // Account used to deploy contract
     bool private operational = true;
+    mapping(bytes32 => Flight) private flights;
+    FlightSuretyData data;
+
 
     event FlightStatusInfo(address airline, string flight, uint256 timestamp, uint8 status);
     event OracleReport(address airline, string flight, uint256 timestamp, uint8 status);
     event OracleRequest(uint8 index, address airline, string flight, uint256 timestamp);
     event OperationalChange(bool change);
+    event RegisteredAirline(bool threshold, uint votes);
 
     struct Flight {
         bool isRegistered;
@@ -38,9 +42,7 @@ contract FlightSuretyApp {
         uint256 updatedTimestamp;        
         address airline;
     }
-    mapping(bytes32 => Flight) private flights;
-
-    FlightSuretyData data;
+  
     /********************************************************************************************/
     /*                                       FUNCTION MODIFIERS                                 */
     /********************************************************************************************/
@@ -91,7 +93,7 @@ contract FlightSuretyApp {
                                 public 
     {
         contractOwner = msg.sender;
-        data = FlightSuretyData(flightAddress);
+        data = new FlightSuretyData(flightAddress);
     }
     /********************************************************************************************/
     /*                                       UTILITY FUNCTIONS                                  */
@@ -105,6 +107,15 @@ contract FlightSuretyApp {
         return operational;  // Modify to call data contract's status
     }
     
+
+    // function getAirlines() 
+    //                         public 
+    //                         view 
+    //                         returns(uint) 
+    // {
+    //     return data;
+    // }
+
     function setOperatingStatus
                             (
                                 bool mode
@@ -135,13 +146,13 @@ contract FlightSuretyApp {
         uint registeredAirlines = data.getRegisteredAirlines();
         uint totalVotes = data.getAirlineVotes(airlineToRegister);
         require(data.airlineRegistered(msg.sender), "The airline currently attempting to register another airline is not registered");
-        
+
         if (registeredAirlines >= 4) {
             data.registerAirline(airlineToRegister, false);
-            return (true, totalVotes);
+            emit RegisteredAirline(true, totalVotes);
         } else { 
             data.registerAirline(airlineToRegister, true);
-            return (true, 0);
+            emit RegisteredAirline(false, totalVotes);
         }    
     }
    /**
@@ -217,7 +228,6 @@ contract FlightSuretyApp {
 
     // Incremented to add pseudo-randomness at various points
     uint8 private nonce = 0;    
-
     // Fee to be paid when registering oracle
     uint256 public constant REGISTRATION_FEE = 1 ether;
 
@@ -378,9 +388,5 @@ contract FlightSuretyApp {
         }
 
         return random;
-    }
-
-    function getAirlines() external returns(uint) {
-        return data.getRegisteredAirlines();
     }
 }   
