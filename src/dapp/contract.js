@@ -1,4 +1,5 @@
 import FlightSuretyApp from '../../build/contracts/FlightSuretyApp.json';
+import FlightSuretyData from '../../build/contracts/FlightSuretyData.json';
 import Config from './config.json';
 import Web3 from 'web3';
 
@@ -8,6 +9,7 @@ export default class Contract {
         let config = Config[network];
         this.web3 = new Web3(new Web3.providers.HttpProvider(config.url));
         this.flightSuretyApp = new this.web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
+        this.flightSuretyData = new this.web3.eth.Contract(FlightSuretyData.abi, config.dataAddress);
         this.initialize(callback);
         this.owner = null;
         this.airlines = [];
@@ -28,14 +30,30 @@ export default class Contract {
         });
     }
 
-    isOperational(callback) {
-       this.flightSuretyApp.methods.isOperational().call({ from: this.owner}, callback);
+    isOperationalApp(callback) {
+        this.flightSuretyApp.methods.isOperational().call({from: this.owner}, callback);
+    }
+
+    setOperationalApp(decision, callback) {
+        console.log(this.owner, "owner")
+        
+        this.flightSuretyApp.methods.setOperatingStatus(decision)
+        .send({ from: this.owner}, (err) => {
+            callback(err)
+        });
     }
 
     // Integrate first register airlines
     // Update the HTML page to accept new airlines 
     // Expand on tests
-    
+    registerAirline(address, callback) {
+        this.flightSuretyApp.methods.registerAirline(address)
+        .send({from : this.owner}, (err, result) => {
+            // console.log("transaction had")
+            callback(err)
+        })
+    }
+
     fetchFlightStatus(flight, callback) {
         let payload = {
             airline: this.airlines[0],

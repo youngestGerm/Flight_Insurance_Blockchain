@@ -36,6 +36,7 @@ contract FlightSuretyData {
     // event AirlineExists()
     event AuthorizeCaller(address caller);
     event AirlineFunded(address airlineAddress, bool exists, bool registered, bool funded, uint fundedCount);
+    event OperationalChange(bool change);
     /**
     * @dev Constructor
     *      The deploying account becomes contractOwner
@@ -113,6 +114,7 @@ contract FlightSuretyData {
                             requireContractOwner 
     {
         operational = mode;
+        emit OperationalChange(mode);
     }
 
     function authorizeCaller(address _address) public requireContractOwner requireIsOperational {

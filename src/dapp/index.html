@@ -18,14 +18,22 @@
             <span class="navbar-toggler-icon"></span>
         </button>
     </nav>
-
+    
+    // class is accessible in css, id is accessible in js
     <main class="container">
+        <h1> Admin Functions </h1>
 
-        <div id="display-wrapper" class="top-20">
-        </div>
-        <div class="row top-20">
-            <label class="form">Flight</label> <input type="text" id="flight-number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn>
-        </div>
+        <div id="display-wrapper" class="top-20"> </div>
+        
+        <div class="row top-19"> <btn class="btn btn-primary" id="app-operational-status-on">Turn Operational Status On</btn> <btn class="btn btn-primary" id="app-operational-status-off">Turn Operational Status Off</btn> </div>
+
+        <div class="row top-20"> <h6 class="register">Register Airline </h6> </div>    
+        <input type="text" id="flight-register"> <btn class="btn btn-primary" id="submit-airline">Register Airline</btn>
+        
+        <div class="row top-21"> <h6 class="flight-form">Flight</h6> </div> 
+        <input type="text" id="flight-number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn>
+        
+        
     </main>
 
 </body>

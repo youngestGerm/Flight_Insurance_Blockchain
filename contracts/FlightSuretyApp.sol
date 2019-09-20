@@ -27,6 +27,11 @@ contract FlightSuretyApp {
     address private contractOwner;          // Account used to deploy contract
     bool private operational = true;
 
+    event FlightStatusInfo(address airline, string flight, uint256 timestamp, uint8 status);
+    event OracleReport(address airline, string flight, uint256 timestamp, uint8 status);
+    event OracleRequest(uint8 index, address airline, string flight, uint256 timestamp);
+    event OperationalChange(bool change);
+
     struct Flight {
         bool isRegistered;
         uint8 statusCode;
@@ -98,6 +103,17 @@ contract FlightSuretyApp {
                             returns(bool) 
     {
         return operational;  // Modify to call data contract's status
+    }
+    
+    function setOperatingStatus
+                            (
+                                bool mode
+                            ) 
+                            external
+                            requireContractOwner 
+    {
+        operational = mode;
+        emit OperationalChange(mode);
     }
     /********************************************************************************************/
     /*                                     SMART CONTRACT FUNCTIONS                             */
@@ -210,16 +226,6 @@ contract FlightSuretyApp {
     mapping(address => Oracle) private oracles;
     mapping(bytes32 => ResponseInfo) private oracleResponses;
     
-    // Event fired each time an oracle submits a response
-    event FlightStatusInfo(address airline, string flight, uint256 timestamp, uint8 status);
-
-    event OracleReport(address airline, string flight, uint256 timestamp, uint8 status);
-
-    // Event fired when flight status request is submitted
-    // Oracles track this and if they have a matching index
-    // they fetch data and submit a response
-    event OracleRequest(uint8 index, address airline, string flight, uint256 timestamp);
-
     struct Oracle {
         bool isRegistered;
         uint8[3] indexes;        
@@ -373,7 +379,4 @@ contract FlightSuretyApp {
 
         return random;
     }
-
-// endregion
-
 }   
