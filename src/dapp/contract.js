@@ -35,24 +35,29 @@ export default class Contract {
     }
 
     setOperationalApp(decision, callback) {
-        console.log(this.owner, "owner")
-        
         this.flightSuretyApp.methods.setOperatingStatus(decision)
         .send({ from: this.owner}, (err) => {
             callback(err)
         });
     }
-
-    // Integrate first register airlines
-    // Update the HTML page to accept new airlines 
-    // Expand on tests
-    registerAirline(address, callback) {
-        this.flightSuretyApp.methods.registerAirline(address)
-        .send({from : this.owner}, (err, result) => {
-            // console.log("transaction had")
-            callback(err)
-        })
-    }
+/**
+ * @Dev Find a way to get the number of registered airlines and register an airline
+ */
+    // getRegisteredAirlines() {
+    //     const test = this.flightSuretyApp.methods.getAirlines()
+    //     console.log(test, "test")
+    // }
+    
+    // // Integrate first register airlines
+    // // Update the HTML page to accept new airlines 
+    // // Expand on tests
+    // registerAirline(address, callback) {
+    //     this.flightSuretyApp.methods.registerAirline(address)
+    //     .send({from : this.owner}, (err, result) => {
+    //         // console.log("transaction had")
+    //         callback(err)
+    //     })
+    // }
 
     fetchFlightStatus(flight, callback) {
         let payload = {

@@ -10,6 +10,7 @@ import express from 'express';
 let config = Config['localhost'];
 let web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('http', 'ws')));
 web3.eth.defaultAccount = web3.eth.accounts[0];
+
 let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
 
 /** Event values
@@ -24,10 +25,13 @@ let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddre
      */
 
 // This is how to retrieve event data
-let oracleR = flightSuretyApp.events.OracleRequest((err, results) => {
-  console.log("\x1b[36m", results.event, results.returnValues, "*******OracleRequest  Event Return Value********");
+flightSuretyApp.events.OracleRequest((err, results) => {
+  console.log("\x1b[36m%s\x1b[0m", results.event, results.returnValues, "*******Event Return Value********");
 });
 
+flightSuretyApp.events.OperationalChange((err, results) => {
+  console.log("\x1b[43m%s\x1b[0m", results.event, results.returnValues[0], "*******Event Return Value********")
+})
 
 const app = express();
 app.get('/api', (req, res) => {

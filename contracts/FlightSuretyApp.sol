@@ -379,4 +379,8 @@ contract FlightSuretyApp {
 
         return random;
     }
+
+    function getAirlines() external returns(uint) {
+        return data.getRegisteredAirlines();
+    }
 }   

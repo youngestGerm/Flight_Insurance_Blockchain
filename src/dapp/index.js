@@ -9,8 +9,8 @@ import './flightsurety.css';
 
     let result = null;
 
-    let contract = new Contract('localhost', () => {
-            
+    let contract = new Contract('localhost', async () => {
+             
         // Read transaction
         contract.isOperationalApp((error, result) => {
             if (result) console.log("dapp is operational"); else console.log("dapp is not operational")
@@ -19,14 +19,13 @@ import './flightsurety.css';
         
         // Handle turning on operational status request
         DOM.elid('app-operational-status-on').addEventListener('click', _ => {
-            contract.setOperationalApp(true, (err) => { if (err) console.log(err, "there is an error!!");  
+            contract.setOperationalApp(true, (err) => { if (err) console.log(err, "there is an error!!"); 
+                // Handle changing text:
                 contract.isOperationalApp((error, result) => {
                     console.log(result, "result")
                     DOM.elid('app-operational-status-message').innerHTML = result ? "Ready to deploy with all functions available" : "Not ready to deploy";
                 });
             })
-            
-
         })
         
         // Handle turning off operational status request
@@ -37,14 +36,13 @@ import './flightsurety.css';
                     DOM.elid('app-operational-status-message').innerHTML = result ? "Ready to deploy with all functions available" : "Not ready to deploy";
                 }); 
             })
-            
         })
 
         // Handle registering Airline
         DOM.elid('submit-airline').addEventListener('click', _ => {
-                
-            // contract.setOperational((err) => {
-            //     if (err) console.log(err, "there is an error!!"); else console.log("WORKS!!")    
+            contract.getRegisteredAirlines()
+            // contract.registerAirline(DOM.elid('flight-register').value, (err) => {
+            //     console.log(err, "error")
             // })
         })
         
@@ -91,3 +89,6 @@ function display(title, idType, results) {
         //         display('Oracles', 'Trigger oracles', [ { label: 'Fetch Flight Status', error: error, value: result.flight + ' ' + result.timestamp} ]);
         //     });
         // })
+
+
+

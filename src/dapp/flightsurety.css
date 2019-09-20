@@ -14,6 +14,7 @@ body {
 
 .btn-primary {
     margin: auto;
+
 }
 
 /* Divs */
@@ -41,10 +42,16 @@ h5 {
     opacity: 0.8;
 }
 
+/* Register Airline and Flight Titles */
 h6 {
     color: rgb(249, 199, 199);
     opacity: 0.8;
 }
+
+.register-form {
+    margin-top: 50px;
+}
+/* END */
 
 section {
     margin-bottom: 50px;
