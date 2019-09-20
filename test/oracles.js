@@ -48,7 +48,7 @@ contract('Oracles --------------------------------------------------------------
     let flight = 'ND1309'; // Course number
     let timestamp = Math.floor(Date.now() / 1000);
 
-
+    console.log(appInstance.address, "events 51")
     /**
     * Since the index assigned to each test account is opaque by design
     * loop through all the accounts and for each account, all its Indexes (indices?)
@@ -63,13 +63,14 @@ contract('Oracles --------------------------------------------------------------
        * These 3 indexes were created above in the `registerOracle` function in the previous `it`.
        * @param `oracleIndexes` This gets the indexes from the account specified which was generated in the `registerOracle` function.
        */
-      let oracleIndexes = await appInstance.getMyIndexes.call({ from: accounts[0] });
+
+      let oracleIndexes = await appInstance.getMyIndexes.call({ from: accounts[20] });
+      await config.flightSuretyApp.fetchFlightStatus(accounts[0], flight, timestamp, { from : accounts[20] });
 
       for(let idx=0;idx<3;idx++) {
-        await config.flightSuretyApp.fetchFlightStatus(oracleIndexes[idx], accounts[0], flight, timestamp, { from : accounts[0] });
         console.log("line 72")
         try {
-          await appInstance.submitOracleResponse(oracleIndexes[idx], accounts[0], flight, timestamp, STATUS_CODE_ON_TIME, { from: accounts[0] });
+          await appInstance.submitOracleResponse(accounts[0], flight, timestamp, STATUS_CODE_ON_TIME, { from: accounts[20] });
           console.log("line 73")
           
         }

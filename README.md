@@ -58,6 +58,10 @@ It contains `rm -rf ./build/server && webpack --config webpack.config.server.js`
 
 `rm -rf ./build/server` specifies in terminal to remove (`rm`) the `./build/server` file. `-rf` is equivalent to `-r -f`, which `-r` is to delete directories and all their subdirectories and `-f` is to force the deletion, ignoring errors or warnings. `webpack --config webpack.config.server.js` sets the configurations for webpack when the server is loaded.
 
+> Why is a oracles used here?
+
+Because we are fetching the flight results by extracting data from another source, we need to use an oracle.
+
 
 ## Notes
 

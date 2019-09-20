@@ -175,14 +175,14 @@ contract FlightSuretyApp {
 
     // Generate a request for oracles to fetch flight information
     function fetchFlightStatus
-                        (   uint8 index,
+                        (   
                             address airline,
                             string flight,
                             uint256 timestamp                        
                         )
                         external
     {
-        // uint8 index = getRandomIndex(msg.sender);
+        uint8 index = getRandomIndex(msg.sender);
 
         // Generate a unique key for storing the request
         bytes32 key = keccak256(abi.encodePacked(index, airline, flight, timestamp));
@@ -300,7 +300,7 @@ contract FlightSuretyApp {
 
 
         bytes32 key = keccak256(abi.encodePacked(index, airline, flight, timestamp)); 
-        require(oracleResponses[key].isOpen, "Flight or timestamp do not match oracle request");
+        require(oracleResponses[key].isOpen, "Oracle request already resolved");
         
         oracleResponses[key].responses[statusCode].push(msg.sender);
 
