@@ -4,8 +4,17 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 // Running on development mode
 module.exports = {
   entry: ['babel-polyfill', path.join(__dirname, "src/dapp")],
+  
+  /**
+   * This is where the script returns back. 
+   * 1. `path: path.join(__dirname, 'prod/dapp')` is specifying where the file should be stored. 
+   *     In this case it is creating a 'prod' folder with 'dapp' as a folder inside. 
+   *     This is all located under the same directory
+   * 2. `filename: "bundle.js"` is the file that will be stored in the path defined.
+   */
+
   output: {
-    path: path.join(__dirname, "prod/dapp"),
+    path: path.join(__dirname, 'prod/dapp'),
     filename: "bundle.js"
   },
   module: {
@@ -40,6 +49,7 @@ module.exports = {
   resolve: {
     extensions: [".js"]
   },
+  
   devServer: {
     contentBase: path.join(__dirname, "dapp"),
     port: 8000,

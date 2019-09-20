@@ -2,9 +2,10 @@
 var Test = require('../config/testConfig.js');
 var BigNumber = require('bignumber.js');
 
-contract('Flight Surety Tests', async (accounts) => {
+contract('Flight Surety Tests ------------------------------------------------------------------------------------------------', async (accounts) => {
 
   var config;
+
   before('setup contract', async () => {
     config = await Test.Config(accounts);
     await config.flightSuretyData.authorizeCaller(config.flightSuretyApp.address);
@@ -78,7 +79,8 @@ contract('Flight Surety Tests', async (accounts) => {
         
     try {
         // await config.flightSuretyApp.fundAirline(config.firstAirline, {from: config.firstAirline, value: web3.utils.toWei('10', "ether")});
-        await config.flightSuretyApp.registerAirline(newAirline, {from: config.firstAirline});
+        const result = await config.flightSuretyApp.registerAirline(newAirline, {from: config.firstAirline});
+        console.log(result, "line 83");
     } catch(e) {
         console.log(e);
         console.log(e.logs[0]);
@@ -117,6 +119,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
     assert.equal(result, true, "Airline funding is not successful");
   })
+  
 //   it('(airline) can vote for an Airline  voteForAirline() if it is funded', async () => {
 
 

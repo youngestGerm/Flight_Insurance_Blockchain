@@ -164,6 +164,7 @@ contract FlightSuretyApp {
                                 internal
                                 pure
     {
+
     }
 
     function fundAirline(address _address) public payable requireIsOperational requireAddressIsAirline(_address) {
@@ -174,17 +175,19 @@ contract FlightSuretyApp {
 
     // Generate a request for oracles to fetch flight information
     function fetchFlightStatus
-                        (
+                        (   uint8 index,
                             address airline,
                             string flight,
-                            uint256 timestamp                            
+                            uint256 timestamp                        
                         )
                         external
     {
-        uint8 index = getRandomIndex(msg.sender);
+        // uint8 index = getRandomIndex(msg.sender);
 
         // Generate a unique key for storing the request
         bytes32 key = keccak256(abi.encodePacked(index, airline, flight, timestamp));
+
+        
         oracleResponses[key] = ResponseInfo({
                                                 requester: msg.sender,
                                                 isOpen: true
@@ -204,16 +207,23 @@ contract FlightSuretyApp {
 
     // Number of oracles that must respond for valid status
     uint256 private constant MIN_RESPONSES = 3;
+    mapping(address => Oracle) private oracles;
+    mapping(bytes32 => ResponseInfo) private oracleResponses;
+    
+    // Event fired each time an oracle submits a response
+    event FlightStatusInfo(address airline, string flight, uint256 timestamp, uint8 status);
 
+    event OracleReport(address airline, string flight, uint256 timestamp, uint8 status);
+
+    // Event fired when flight status request is submitted
+    // Oracles track this and if they have a matching index
+    // they fetch data and submit a response
+    event OracleRequest(uint8 index, address airline, string flight, uint256 timestamp);
 
     struct Oracle {
         bool isRegistered;
         uint8[3] indexes;        
     }
-
-    // Track all registered oracles
-    mapping(address => Oracle) private oracles;
-
     // Model for responses from oracles
     struct ResponseInfo {
         address requester;                              // Account that requested status
@@ -225,20 +235,9 @@ contract FlightSuretyApp {
 
     // Track all oracle responses
     // Key = hash(index, flight, timestamp)
-    mapping(bytes32 => ResponseInfo) private oracleResponses;
-
-    // Event fired each time an oracle submits a response
-    event FlightStatusInfo(address airline, string flight, uint256 timestamp, uint8 status);
-
-    event OracleReport(address airline, string flight, uint256 timestamp, uint8 status);
-
-    // Event fired when flight status request is submitted
-    // Oracles track this and if they have a matching index
-    // they fetch data and submit a response
-    event OracleRequest(uint8 index, address airline, string flight, uint256 timestamp);
 
 
-    // Register an oracle with the contract
+    // Register an oracle with the contract.
     function registerOracle
                             (
                             )
@@ -247,9 +246,7 @@ contract FlightSuretyApp {
     {
         // Require registration fee
         require(msg.value >= REGISTRATION_FEE, "Registration fee is required");
-
         uint8[3] memory indexes = generateIndexes(msg.sender);
-
         oracles[msg.sender] = Oracle({
                                         isRegistered: true,
                                         indexes: indexes
@@ -264,7 +261,6 @@ contract FlightSuretyApp {
                             returns(uint8[3])
     {
         require(oracles[msg.sender].isRegistered, "Not registered as an oracle");
-
         return oracles[msg.sender].indexes;
     }
 
@@ -275,6 +271,20 @@ contract FlightSuretyApp {
     // For the response to be accepted, there must be a pending request that is open
     // and matches one of the three Indexes randomly assigned to the oracle at the
     // time of registration (i.e. uninvited oracles are not welcome)
+
+     /** 
+        First the oracles list has to contain a address that is the same as msg.sender.
+        Second the oracle must have an index (it has 3 in total) that is the same as the index provided.
+     */
+    modifier oracleResponseCriteria(uint8 index) {
+        require((oracles[msg.sender].indexes[0] == index) 
+        || (oracles[msg.sender].indexes[1] == index) 
+        || (oracles[msg.sender].indexes[2] == index),
+         "Index does not match oracle request");
+         _;
+    }
+   
+
     function submitOracleResponse
                         (
                             uint8 index,
@@ -284,13 +294,14 @@ contract FlightSuretyApp {
                             uint8 statusCode
                         )
                         external
+                        oracleResponseCriteria(index)
     {
-        require((oracles[msg.sender].indexes[0] == index) || (oracles[msg.sender].indexes[1] == index) || (oracles[msg.sender].indexes[2] == index), "Index does not match oracle request");
+        
 
 
         bytes32 key = keccak256(abi.encodePacked(index, airline, flight, timestamp)); 
         require(oracleResponses[key].isOpen, "Flight or timestamp do not match oracle request");
-
+        
         oracleResponses[key].responses[statusCode].push(msg.sender);
 
         // Information isn't considered verified until at least MIN_RESPONSES

@@ -19,22 +19,22 @@ import './flightsurety.css';
     
 
         // User-submitted transaction
-        // Recall that DOM stands for document oriented model. Note here that you don't need to instantiate DOM.
-        document.getElementById('submit-oracle').addEventListener('click', _ => {
-            let flight = DOM.elid('flight-number').value;
-            // Write transaction
-            contract.fetchFlightStatus(flight, (error, result) => {
-                display('Oracles', 'Trigger oracles', [ { label: 'Fetch Flight Status', error: error, value: result.flight + ' ' + result.timestamp} ]);
-            });
-        })
-      
-        // DOM.elid('submit-oracle').addEventListener('click', _ => {
+        // Note that you can write the DOM, event listener in another way 
+        // document.getElementById('submit-oracle').addEventListener('click', _ => {
         //     let flight = DOM.elid('flight-number').value;
         //     // Write transaction
         //     contract.fetchFlightStatus(flight, (error, result) => {
         //         display('Oracles', 'Trigger oracles', [ { label: 'Fetch Flight Status', error: error, value: result.flight + ' ' + result.timestamp} ]);
         //     });
         // })
+      
+        DOM.elid('submit-oracle').addEventListener('click', _ => {
+            let flight = DOM.elid('flight-number').value;
+            // Write transaction
+            contract.fetchFlightStatus(flight, (error, result) => {
+                display('Oracles', 'Trigger oracles', [ { label: 'Fetch Flight Status', error: error, value: result.flight + ' ' + result.timestamp} ]);
+            });
+        })
     
     });
     

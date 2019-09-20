@@ -1,6 +1,6 @@
 # FlightSurety
 
-FlightSurety is a sample application project for Udacity's Blockchain course.
+FlightSurety is a sample application project for Udacity's Blockchain course. Note that is project is highly theoretical and is hard/ tedious to implement for pratical deployment. Theoretical in this sense means that many tests for different functionalities have been established, but they have not yet been implemented via the front end. The hardest part of the project would be to establish the tests in the front end, that would be the final goal.
 
 ## Install
 
@@ -29,6 +29,7 @@ To view dapp:
 
 `npm run server`  
 `truffle test ./test/oracles.js`
+`truffle test ./test/flightSurety.js`
 
 ## Deploy
 
@@ -65,6 +66,7 @@ It contains `rm -rf ./build/server && webpack --config webpack.config.server.js`
 
 ## Resources
 * [Webpack JS Configuration Files](https://webpack.js.org/configuration/)
+
 * [How does Ethereum work anyway?](https://medium.com/@preethikasireddy/how-does-ethereum-work-anyway-22d1df506369)
 * [BIP39 Mnemonic Generator](https://iancoleman.io/bip39/)
 * [Truffle Framework](http://truffleframework.com/)

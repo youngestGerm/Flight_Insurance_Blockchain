@@ -1,73 +1,86 @@
 
-var Test = require('../config/testConfig.js');
+const Test = require('../config/testConfig.js');
 //var BigNumber = require('bignumber.js');
 
-contract('Oracles', async (accounts) => {
+contract('Oracles ------------------------------------------------------------------------------------------------', async (accounts) => {
 
   const TEST_ORACLES_COUNT = 20;
   var config;
+  var appInstance;
+  var contractOwner;
+
+  const STATUS_CODE_UNKNOWN = 0;
+  const STATUS_CODE_ON_TIME = 10;
+  const STATUS_CODE_LATE_AIRLINE = 20;
+  const STATUS_CODE_LATE_WEATHER = 30;
+  const STATUS_CODE_LATE_TECHNICAL = 40;
+  const STATUS_CODE_LATE_OTHER = 50;
+
   before('setup contract', async () => {
     config = await Test.Config(accounts);
-
-    // Watch contract events
-    const STATUS_CODE_UNKNOWN = 0;
-    const STATUS_CODE_ON_TIME = 10;
-    const STATUS_CODE_LATE_AIRLINE = 20;
-    const STATUS_CODE_LATE_WEATHER = 30;
-    const STATUS_CODE_LATE_TECHNICAL = 40;
-    const STATUS_CODE_LATE_OTHER = 50;
+    appInstance = await config.flightSuretyApp;
+    contractOwner = accounts[0]
 
   });
+ 
+  /**
+  * Remember each `it` function impacts the next `it` function.
+  */
+  
+  it('can register oracles', async () => {
+    let fee = await appInstance.REGISTRATION_FEE.call();
 
+      
+      /**
+       * This `registerOracle` contract function requires a registration fee of 1 ether.
+       * This for loop runs through the 20 test oracles and appends them onto the contract data object `mapping(address => Oracle) private oracles`.
+       * Each one of the 20 oracles has 3 indexes.
+       */
 
-  // it('can register oracles', async () => {
+      await appInstance.registerOracle({ from: accounts[0], value: fee });
+      let result = await appInstance.getMyIndexes.call({from: accounts[0]});
+      console.log(`Oracle Registered: ${result[0]}, ${result[1]}, ${result[2]}`);
     
-  //   // ARRANGE
-  //   let fee = await config.flightSuretyApp.REGISTRATION_FEE.call();
+  });
 
-  //   // ACT
-  //   for(let a=1; a<TEST_ORACLES_COUNT; a++) {      
-  //     await config.flightSuretyApp.registerOracle({ from: accounts[a], value: fee });
-  //     let result = await config.flightSuretyApp.getMyIndexes.call({from: accounts[a]});
-  //     console.log(`Oracle Registered: ${result[0]}, ${result[1]}, ${result[2]}`);
-  //   }
-  // });
-
-  // it('can request flight status', async () => {
+  it('can request flight status', async () => {
     
-  //   // ARRANGE
-  //   let flight = 'ND1309'; // Course number
-  //   let timestamp = Math.floor(Date.now() / 1000);
-
-  //   // Submit a request for oracles to get status information for a flight
-  //   await config.flightSuretyApp.fetchFlightStatus(config.firstAirline, flight, timestamp);
-  //   // ACT
-
-  //   // Since the Index assigned to each test account is opaque by design
-  //   // loop through all the accounts and for each account, all its Indexes (indices?)
-  //   // and submit a response. The contract will reject a submission if it was
-  //   // not requested so while sub-optimal, it's a good test of that feature
-  //   for(let a=1; a<TEST_ORACLES_COUNT; a++) {
-
-  //     // Get oracle information
-  //     let oracleIndexes = await config.flightSuretyApp.getMyIndexes.call({ from: accounts[a]});
-  //     for(let idx=0;idx<3;idx++) {
-
-  //       try {
-  //         // Submit a response...it will only be accepted if there is an Index match
-  //         await config.flightSuretyApp.submitOracleResponse(oracleIndexes[idx], config.firstAirline, flight, timestamp, STATUS_CODE_ON_TIME, { from: accounts[a] });
-
-  //       }
-  //       catch(e) {
-  //         // Enable this when debugging
-  //          console.log('\nError', idx, oracleIndexes[idx].toNumber(), flight, timestamp);
-  //       }
-
-  //     }
-  //   }
+    let flight = 'ND1309'; // Course number
+    let timestamp = Math.floor(Date.now() / 1000);
 
 
-  // });
+    /**
+    * Since the index assigned to each test account is opaque by design
+    * loop through all the accounts and for each account, all its Indexes (indices?)
+    * and submit a response. The contract will reject a submission if it was
+    * not requested so while sub-optimal, it's a good test of that feature
+    */
+    
+    
+
+      /**
+       * This `getMyIndexes` contract function returns the 3 indexes from the specified account.
+       * These 3 indexes were created above in the `registerOracle` function in the previous `it`.
+       * @param `oracleIndexes` This gets the indexes from the account specified which was generated in the `registerOracle` function.
+       */
+      let oracleIndexes = await appInstance.getMyIndexes.call({ from: accounts[0] });
+
+      for(let idx=0;idx<3;idx++) {
+        await config.flightSuretyApp.fetchFlightStatus(oracleIndexes[idx], accounts[0], flight, timestamp, { from : accounts[0] });
+        console.log("line 72")
+        try {
+          await appInstance.submitOracleResponse(oracleIndexes[idx], accounts[0], flight, timestamp, STATUS_CODE_ON_TIME, { from: accounts[0] });
+          console.log("line 73")
+          
+        }
+        catch(e) {
+          
+           console.log('\nError', ` error: ${e}, idx ${idx}`, `Oracle Index ${oracleIndexes[idx].toNumber()}`, flight, timestamp);
+        }
+
+      }
+
+  });
 
 
  
