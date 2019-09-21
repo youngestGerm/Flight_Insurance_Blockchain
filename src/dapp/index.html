@@ -29,25 +29,26 @@
             <div class="row top-19"> <btn class="btn btn-primary" id="app-operational-status-on">Turn App Operational Status On</btn> <btn class="btn btn-primary" id="app-operational-status-off">Turn App Operational Status Off</btn> </div>
         </section>
         <section>
-                <h4>Data Contract Operational Status</h4>
-                <div class = "col-sm-8 field-value" id = "data-operational-status-message"> </div>
-                <div class="row top-19"> <btn class="btn btn-primary" id="data-operational-status-on">Turn Data Operational Status On</btn> <btn class="btn btn-primary" id="data-operational-status-off">Turn Data Operational Status Off</btn> </div>
+            <h4>Data Contract Operational Status</h4>
+            <div class = "col-sm-8 field-value" id = "data-operational-status-message"> </div>
+            <div class="row top-19"> <btn class="btn btn-primary" id="data-operational-status-on">Turn Data Operational Status On</btn> <btn class="btn btn-primary" id="data-operational-status-off">Turn Data Operational Status Off</btn> </div>
         </section>
 
-    
+        <!-- <div class="row top-20"> <h6 class="register-form">Register Airline </h6> </div>     -->
+        
+        <section>
+            <h4>Register Airline</h4>
+            <div> <input type="text" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" id="flight-register"> <btn class="btn btn-primary" id="submit-airline">Register Airline</btn> </div>
+        </section>
+        
+        <section>
+            <h4>Input Flight</h4>
+            <div> <input type="text" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" id="flight-number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn> </div>
+        </section>
+        <!-- Move this code down to an appropriate `main class` in the future -->
+       
 
         <div id="display-wrapper" class="top-20"> </div>
-
-        <div class="row top-20"> <h6 class="register-form">Register Airline </h6> </div>    
-        <div>
-            <input type="text" id="flight-register"> <btn class="btn btn-primary" id="submit-airline">Register Airline</btn>
-        </div>
-        
-        <!-- Move this code down to an appropriate `main class` in the future -->
-        <div class="row top-21"> <h6 class="flight-form">Flight</h6> </div> 
-        <div>
-            <input type="text" id="flight-number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn>
-        </div>
     </main>
 
     <main class="container2"> 
