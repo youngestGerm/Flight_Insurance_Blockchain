@@ -11,18 +11,17 @@ import './flightsurety.css';
     
     // INITIALIZATION OF CONTRACT OBJECT
     let contract = new Contract('localhost', async () => {
-            
+        
         addOperationalEventListners(contract);
         
-
-
-        
+        document.addEventListener('click', _ => {
+            console.log("Metamask Address", window.ethereum.selectedAddress)
+        })
 
         // Handle registering Airline
         DOM.elid('submit-airline').addEventListener('click', _ => {
             // You need to send through an address of an already registered airline in order to register a new one.
-            const registeredAirline = ""
-            contract.registerAirline(DOM.elid('flight-register').value, registeredAirline, (err, result) => {
+            contract.registerAirline(DOM.elid('flight-register').value, window.ethereum.selectedAddress, (err, result) => {
                 console.log(err, "error", result)
             })
         })

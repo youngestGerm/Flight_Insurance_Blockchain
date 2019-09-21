@@ -25,28 +25,36 @@ body {
 
 /* Buttons */
 .btn-primary {
-    margin: 50px;
-    margin-top: 30px;
+    margin: auto;
     opacity: 0.9;
-
 }
 
+#data-operational-status-on { margin-top: 30px; }
+#data-operational-status-off { margin-top: 30px; }
+#app-operational-status-on { margin-top: 30px; }
+#app-operational-status-off { margin-top: 30px; }
+
 #submit-airline {
-    margin: auto;
+    position: absolute;
+    right: 20%
 }
 
 #submit-oracle {
-    margin: auto;
+    position: absolute;
+    right: 20%
 }
 
 /* END */
 
 
 /* Divs */
+/* Note that the margin is top, right, bot, left */
+
 /* .top-20 {
     margin-top: 20px;
 } */
-
+#input-flight-ID-div { margin-top: 30px; }
+#input-airline-ID-div { margin-top: 20px }
 .top-21 {
     margin-top: 40px;
 }
@@ -96,10 +104,16 @@ section {
 /* Inputs */
 
 input[type = text] {
-    margin: auto;
-    margin-right: 100px;
     opacity: 0.4;
+    text-align: center;
+    width: 50%; 
 }
 
 
 /* END */
+
+/* Placeholder */
+::placeholder {
+    color:rgb(0, 0, 0);
+    opacity: 1;
+}

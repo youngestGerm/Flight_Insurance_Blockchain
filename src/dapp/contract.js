@@ -33,7 +33,7 @@ export default class Contract {
             callback();
         });
     }
-    
+
     // App Operationals
     isOperationalApp(callback) {
         this.flightSuretyApp.methods.isOperationalApp().call({from: this.owner}, callback);
@@ -67,7 +67,6 @@ export default class Contract {
     registerAirline(address, registeredAirline, callback) {
         this.flightSuretyApp.methods.registerAirline(address)
         .send({from : registeredAirline}, (err, result) => {
-
             console.log(result, "registerAirline transaction")
             callback(err, result)
         })

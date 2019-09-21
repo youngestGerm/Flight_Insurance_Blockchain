@@ -36,14 +36,11 @@
 
         <!-- <div class="row top-20"> <h6 class="register-form">Register Airline </h6> </div>     -->
         
-        <section>
-            <h4>Register Airline</h4>
-            <div> <input type="text" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" id="flight-register"> <btn class="btn btn-primary" id="submit-airline">Register Airline</btn> </div>
-        </section>
+        
         
         <section>
             <h4>Input Flight</h4>
-            <div> <input type="text" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" id="flight-number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn> </div>
+            <div id= "input-flight-ID-div"> <input type="text" id="flight-number" placeholder="Flight number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn> </div>
         </section>
         <!-- Move this code down to an appropriate `main class` in the future -->
        
@@ -54,7 +51,10 @@
     <main class="container2"> 
         <h1> Airline Functions </h1>
         <div id="display-wrapper" class="top-20"> </div>
-        
+        <section>
+            <h4>Register Airline</h4>
+            <div id = "input-airline-ID-div"> <input type="text" id="flight-register" placeholder="Airline address"> <btn class="btn btn-primary" id="submit-airline">Register Airline</btn> </div>
+        </section>
         <!-- <div class="row top-19"> <btn class="btn btn-primary" id="app-operational-status-on">Turn Operational Status On</btn> <btn class="btn btn-primary" id="app-operational-status-off">Turn Operational Status Off</btn> </div>
 
         <div class="row top-20"> <h6 class="register-form">Register Airline </h6> </div>    
