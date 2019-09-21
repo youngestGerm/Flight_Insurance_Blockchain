@@ -99,24 +99,15 @@ contract FlightSuretyApp {
     /*                                       UTILITY FUNCTIONS                                  */
     /********************************************************************************************/
 
-    function isOperational() 
+    function isOperationalApp() 
                             public 
                             view 
                             returns(bool) 
     {
         return operational;  // Modify to call data contract's status
     }
-    
 
-    // function getAirlines() 
-    //                         public 
-    //                         view 
-    //                         returns(uint) 
-    // {
-    //     return data;
-    // }
-
-    function setOperatingStatus
+    function setOperationalApp
                             (
                                 bool mode
                             ) 
@@ -126,6 +117,26 @@ contract FlightSuretyApp {
         operational = mode;
         emit OperationalChange(mode);
     }
+
+    function isOperationalData()
+                                public
+                                view
+                                returns(bool)
+    {
+        return data.isOperational();
+    }
+
+    function setOperationalData(
+                                    bool mode
+                                )
+                                external
+                                requireContractOwner
+    {
+        data.setOperatingStatus(mode);
+        emit OperationalChange(mode);
+    }
+
+
     /********************************************************************************************/
     /*                                     SMART CONTRACT FUNCTIONS                             */
     /********************************************************************************************/

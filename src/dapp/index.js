@@ -12,32 +12,68 @@ import './flightsurety.css';
     // INITIALIZATION OF CONTRACT OBJECT
     let contract = new Contract('localhost', async () => {
         
-        // Read transaction
+        // Read app operational status
         contract.isOperationalApp((error, result) => {
-            if (result) console.log("dapp is operational"); else console.log("dapp is not operational")
-            display('App Contract Operational Status', 'app-operational-status-message', [ { label: 'Operational Status', error: "Not ready to deploy", value: "Ready to deploy with all functions available"} ]);
+            if (result) console.log("dapp app contract is operational"); else console.log("dapp is not operational")
+
+            DOM.elid('app-operational-status-message').innerHTML = result ? "Ready to deploy with all functions available" : "Not ready to deploy"
+            // display('App Contract Operational Status', 'app-operational-status-message', [ { error: "Not ready to deploy", value: "Ready to deploy with all functions available"} ]);
         });
         
-        // Handle turning on operational status request
+        // Read data operational status
+        contract.isOperationalData((error, result) => {
+            if (result) console.log("dapp data contract is operational"); else console.log("dapp data contract is not operational")
+            DOM.elid('data-operational-status-message').innerHTML = result ? "Ready to deploy with all functions available" : "Not ready to deploy"
+            // display('Data Contract Operational Status', 'data-operational-status-message', [ { error: "Not ready to deploy", value: "Ready to deploy with all functions available"} ]);
+        });
+
+        // Handle turning on app operational status request
         DOM.elid('app-operational-status-on').addEventListener('click', _ => {
             contract.setOperationalApp(true, (err) => { if (err) console.log(err, "there is an error!!"); 
                 // Handle changing text:
                 contract.isOperationalApp((error, result) => {
-                    if (result) console.log("dapp is operational"); else console.log("dapp is not operational")
+                    // This result returns whatever the return value is in the contract for this function
+                    console.log(error, result);
+                    if (result) console.log("dapp app is operational"); else console.log("dapp app is not operational")
                     // console.log(result, "result operational status")
                     DOM.elid('app-operational-status-message').innerHTML = result ? "Ready to deploy with all functions available" : "Not ready to deploy";
                 });
             })
         })
         
-        // Handle turning off operational status request
+        // Handle turning off app operational status request
         DOM.elid('app-operational-status-off').addEventListener('click', _ => {
             contract.setOperationalApp(false, (err) => { if (err) console.log(err, "there is an error!!");  
                 // Handle changing text:
                 contract.isOperationalApp((error, result) => {
-                    if (result) console.log("dapp is operational"); else console.log("dapp is not operational")
+                    // This result returns whatever the return value is in the contract for this function
+                    console.log(error, result);
+                    if (result) console.log("dapp app is operational"); else console.log("dapp app is not operational")
                     DOM.elid('app-operational-status-message').innerHTML = result ? "Ready to deploy with all functions available" : "Not ready to deploy";
                 }); 
+            })
+        })
+
+        //Handle turning on data operational status request
+        DOM.elid('data-operational-status-on').addEventListener('click', _ => {
+            contract.setOperationalData(true, (err) => { if (err) console.log(err, "there is an error!!"); 
+                // Handle changing text:
+                contract.isOperationalData((error, result) => {
+                    if (result) console.log("dapp data is operational"); else console.log("dapp data is not operational")
+                    // console.log(result, "result operational status")
+                    DOM.elid('data-operational-status-message').innerHTML = result ? "Ready to deploy with all functions available" : "Not ready to deploy";
+                });
+            })
+        })
+        //Handle turning on data operational status request
+        DOM.elid('data-operational-status-off').addEventListener('click', _ => {
+            contract.setOperationalData(false, (err) => { if (err) console.log(err, "there is an error!!"); 
+                // Handle changing text:
+                contract.isOperationalData((error, result) => {
+                    if (result) console.log("dapp data is operational"); else console.log("dapp data is not operational")
+                    // console.log(result, "result operational status")
+                    DOM.elid('data-operational-status-message').innerHTML = result ? "Ready to deploy with all functions available" : "Not ready to deploy";
+                });
             })
         })
 
@@ -55,7 +91,6 @@ import './flightsurety.css';
             let flight = DOM.elid('flight-number').value;
             // Write transaction
             contract.fetchFlightStatus(flight, (error, result) => {
-                
                 display('Oracles', "oracle-submission", [ { label: 'Fetch Flight Status', error: error, value: result.flight + ' ' + result.timestamp} ]);
             });
         })

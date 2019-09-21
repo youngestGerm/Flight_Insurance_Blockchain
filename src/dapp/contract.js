@@ -33,20 +33,27 @@ export default class Contract {
             callback();
         });
     }
-
+    
+    // App Operationals
     isOperationalApp(callback) {
-        this.flightSuretyApp.methods.isOperational().call({from: this.owner}, callback);
+        this.flightSuretyApp.methods.isOperationalApp().call({from: this.owner}, callback);
     }
 
     setOperationalApp(decision, callback) {
-        this.flightSuretyApp.methods.setOperatingStatus(decision)
+        this.flightSuretyApp.methods.setOperationalApp(decision)
         .send({ from: this.owner}, callback);
     }
-    /**
-     * @Dev Find a way to get the number of registered airlines and register an airline.
-     * Here is the issue: I am trying to call a contract with an instance of another contract
-     * FIXED: Forget the `new` in front of the new instance `FlightSuretyData` in the `FlightSuretyApp` constructor.
-     */
+    
+    // Data Operationals
+    isOperationalData(callback) {
+        this.flightSuretyApp.methods.isOperationalData().call({from: this.owner}, callback)
+    }
+
+    setOperationalData(decision, callback) {
+        this.flightSuretyApp.methods.setOperationalData(decision)
+        .send({from: this.owner}, callback)
+    }
+
     getRegisteredAirlines(callback) {
         this.flightSuretyApp.methods.getAirlines().send({from: this.owner}, (error, result) => {
             console.log(result, "result")

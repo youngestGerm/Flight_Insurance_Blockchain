@@ -101,13 +101,7 @@ contract FlightSuretyData {
         return operational;
     }
 
-
-    /**
-    * @dev Sets contract operations on/off
-    *
-    * When operational mode is disabled, all write transactions except for this one will fail
-    */    
-    function setOperatingStatus
+   function setOperatingStatus
                             (
                                 bool mode
                             ) 
@@ -117,6 +111,12 @@ contract FlightSuretyData {
         operational = mode;
         emit OperationalChange(mode);
     }
+    /**
+    * @dev Sets contract operations on/off
+    *
+    * When operational mode is disabled, all write transactions except for this one will fail
+    */    
+
 
     function authorizeCaller(address _address) public requireContractOwner requireIsOperational {
         authorizedCallers[_address] = true;
