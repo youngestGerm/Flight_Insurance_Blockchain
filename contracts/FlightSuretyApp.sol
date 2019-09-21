@@ -111,8 +111,9 @@ contract FlightSuretyApp {
                             (
                                 bool mode
                             ) 
-                            external
+                            public
                             requireContractOwner 
+                            returns(bool)
     {
         operational = mode;
         emit OperationalChange(mode);
@@ -131,11 +132,15 @@ contract FlightSuretyApp {
                                 )
                                 external
                                 requireContractOwner
+                                returns(bool)
     {
         data.setOperatingStatus(mode);
         emit OperationalChange(mode);
     }
 
+    function getRegisteredAirlinesArray() public view requireIsOperational returns(address[] memory) {
+        return data.getRegisteredAirlinesAddresses();
+    }
 
     /********************************************************************************************/
     /*                                     SMART CONTRACT FUNCTIONS                             */
@@ -149,9 +154,8 @@ contract FlightSuretyApp {
                             address airlineToRegister
                             )
                             external
-                            view
                             requireIsOperational
-                            returns(bool success, uint256 votes)
+                            // returns(address[] memory)
     {
         //First check whether the number of registered airlines is less than 5 or greater
         uint registeredAirlines = data.getRegisteredAirlines();
@@ -161,9 +165,11 @@ contract FlightSuretyApp {
         if (registeredAirlines >= 4) {
             data.registerAirline(airlineToRegister, false);
             emit RegisteredAirline(true, totalVotes);
+            // return data.getRegisteredAirlinesAddresses();
         } else { 
             data.registerAirline(airlineToRegister, true);
-            emit RegisteredAirline(false, totalVotes);
+            emit RegisteredAirline(true, totalVotes);
+            // return data.getRegisteredAirlinesAddresses();
         }    
     }
    /**

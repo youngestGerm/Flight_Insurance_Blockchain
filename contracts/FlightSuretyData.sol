@@ -25,6 +25,7 @@ contract FlightSuretyData {
     address private contractOwner;                                      // Account used to deploy contract
     bool private operational = true;                                    // Blocks all state changes throughout the contract if false
     mapping (address => Airline) private airlines;
+    address[] registeredAirlineAddresses;
     mapping (address => bool) private authorizedCallers;
     uint private registeredAirlines = 0;
     uint private fundedAirlines = 0;
@@ -48,6 +49,7 @@ contract FlightSuretyData {
     {
         contractOwner = msg.sender;
         airlines[firstAirline] =  Airline(true, true, false, new bytes32[](0), Votes(0), 0);
+        registeredAirlineAddresses.push(firstAirline);
         registeredAirlines.add(1);
     }   
 
@@ -143,6 +145,9 @@ contract FlightSuretyData {
     function numberOfFundedAirlines() public view requireIsOperational returns(uint) {
         return fundedAirlines;
     }
+    function getRegisteredAirlinesAddresses() public view requireIsOperational returns(address[] memory) {
+        return registeredAirlineAddresses;
+    }
     /********************************************************************************************/
     /*                                     SMART CONTRACT FUNCTIONS                             */
     /********************************************************************************************/
@@ -157,7 +162,6 @@ contract FlightSuretyData {
                                 address airlineAddress, bool registered
                             )
                             external
-                            view
                             requireIsOperational
 
     {
@@ -165,6 +169,7 @@ contract FlightSuretyData {
         airlines[airlineAddress] = Airline(true, registered, false, new bytes32[](0), Votes(0), 0);
         airlinesCount.add(1);
         if (registered) {
+            registeredAirlineAddresses.push(airlineAddress);
             registeredAirlines.add(1);
         }
     }
@@ -172,6 +177,7 @@ contract FlightSuretyData {
     function setAirlineRegistered(address _address) public requireIsOperational requireAirlineExists(_address) {
         require(!airlines[_address].registered, "Airline already registered");
         airlines[_address].registered = true;
+        registeredAirlineAddresses.push(_address);
         registeredAirlines.add(1);
 
     }

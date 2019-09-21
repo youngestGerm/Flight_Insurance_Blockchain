@@ -1,15 +1,19 @@
 import FlightSuretyApp from '../../build/contracts/FlightSuretyApp.json';
-import FlightSuretyData from '../../build/contracts/FlightSuretyData.json';
 import Config from './config.json';
 import Web3 from 'web3';
+var contract = require("truffle-contract");
 
 export default class Contract {
-    constructor(network, callback) {
 
-        let config = Config[network];
-        this.web3 = new Web3(new Web3.providers.HttpProvider(config.url));
-        this.flightSuretyApp = new this.web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
-        // this.flightSuretyData = new this.web3.eth.Contract(FlightSuretyData.abi, config.dataAddress);
+    constructor(network, callback) {
+        this._appAddress = Config[network].appAddress;
+        console.log(this._appAddress, "constructor")
+        this.providers = new Web3.providers.HttpProvider('http://localhost:8545');
+        this.web3 = new Web3(this.providers);
+        this.flightSuretyApp = contract({abi : FlightSuretyApp.abi});
+        this.flightSuretyApp.setProvider(this.providers);
+
+
         this.initialize(callback);
         this.owner = null;
         this.airlines = [];
@@ -17,6 +21,7 @@ export default class Contract {
     }
 
     initialize(callback) {
+        
         // We are getting the 50 accounts set up in ganache
         this.web3.eth.getAccounts((error, accts) => {
             this.owner = accts[0];
@@ -35,44 +40,57 @@ export default class Contract {
     }
 
     // App Operationals
-    isOperationalApp(callback) {
-        this.flightSuretyApp.methods.isOperationalApp().call({from: this.owner}, callback);
+    async isOperationalApp() {
+        let instance = await this.flightSuretyApp.at(this._appAddress);
+        let isOperational = await instance.isOperationalApp({from: this.owner})
+        return isOperational;
     }
 
-    setOperationalApp(decision, callback) {
-        this.flightSuretyApp.methods.setOperationalApp(decision)
-        .send({ from: this.owner}, callback);
+    async setOperationalApp(decision) {
+        let instance = await this.flightSuretyApp.at(this._appAddress);
+        
+        await instance.setOperationalApp(decision, {from: this.owner})
+        let appOperationalResult = await instance.isOperationalApp({from: this.owner})
+
+        return appOperationalResult;
     }
     
     // Data Operationals
-    isOperationalData(callback) {
-        this.flightSuretyApp.methods.isOperationalData().call({from: this.owner}, callback)
+    async isOperationalData() {
+        let instance = await this.flightSuretyApp.at(this._appAddress);
+        let isOperational = await instance.isOperationalData({from: this.owner})
+        return isOperational;
     }
 
-    setOperationalData(decision, callback) {
-        this.flightSuretyApp.methods.setOperationalData(decision)
-        .send({from: this.owner}, callback)
+    async setOperationalData(decision) {
+        let instance = await this.flightSuretyApp.at(this._appAddress);
+        
+        await instance.setOperationalData(decision, {from: this.owner})
+        let dataOperationalResult = await instance.isOperationalData({from: this.owner})
+        
+        return dataOperationalResult;    
     }
 
-    getRegisteredAirlines(callback) {
-        this.flightSuretyApp.methods.getAirlines().send({from: this.owner}, (error, result) => {
-            console.log(result, "result")
-            callback(result)
-        } )
 
+
+    async getRegisteredAirlines() {
+        const instance = await this.flightSuretyApp.at(this._appAddress);
+        let airlines = await instance.getRegisteredAirlinesArray()
+
+        console.log(airlines, "instance airlines return");
+        return airlines
     }
+    
     /**
-     * Note that currently, the contract is hooked up so that the front end requires the registered airline to register a new airline.
+     * Note that you need to use call here, perhaps because of the return value
      */
-    registerAirline(address, registeredAirline, callback) {
-        this.flightSuretyApp.methods.registerAirline(address)
-        .send({from : registeredAirline}, (err, result) => {
-            console.log(result, "registerAirline transaction")
-            callback(err, result)
-        })
+
+    async registerAirline(address, registeredAirline) {
+        const instance = await this.flightSuretyApp.at(this._appAddress);
+        await instance.registerAirline(address, {from: registeredAirline});
     }
 
-    fetchFlightStatus(flight, callback) {
+    async fetchFlightStatus(flight, callback) {
         let payload = {
             airline: this.airlines[0],
             flight: flight,
@@ -81,7 +99,7 @@ export default class Contract {
 
         this.flightSuretyApp.methods.fetchFlightStatus(payload.airline, payload.flight, payload.timestamp)
             .send({ from: this.owner}, (error, result) => {
-                // result returns the transactionHash
+                // result returns the transactionHash because there was no return in the function in the contract
                 callback(error, payload);
             });
     }

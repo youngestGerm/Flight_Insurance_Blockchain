@@ -62,6 +62,18 @@ It contains `rm -rf ./build/server && webpack --config webpack.config.server.js`
 
 Because we are fetching the flight results by extracting data from another source, we need to use an oracle.
 
+> What is the difference between send and call?
+`msg.sender.send(number);` is the same as: `msg.sender.call.gas(0).value(number)();`
+
+> What is the use of new?
+
+> When can you not use view?
+When you are altering a property of a contract such as `address[] airlines`.
+
+
+> Why do you append `then` after a web3 contract instance after call, like this: 
+`this.flightSuretyApp.methods.getRegisteredAirlinesArray().call().then();`
+
 
 ## Notes
 
