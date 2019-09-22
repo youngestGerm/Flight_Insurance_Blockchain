@@ -81,6 +81,10 @@ section {
     margin-bottom: 50px;
 }
 
+#airline-submission-update {
+    overflow-wrap: break-word;
+    margin: auto;
+}
 /* END */
 
 /* Labels */

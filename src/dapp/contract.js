@@ -39,6 +39,33 @@ export default class Contract {
         });
     }
 
+
+
+    async getRegisteredAirlines() {
+        const instance = await this.flightSuretyApp.at(this._appAddress);
+        let airlines = await instance.getRegisteredAirlinesArray();
+        
+        console.log(airlines, "instance airlines return");
+        return airlines
+    }
+    
+    /**
+     * Note that you need to use call here, perhaps because of the return value
+     */
+
+    async registerAirline(address, registeredAirline) {
+        const instance = await this.flightSuretyApp.at(this._appAddress);
+        await instance.registerAirline(address, {from: registeredAirline});
+    }
+
+
+
+
+
+
+
+
+
     // App Operationals
     async isOperationalApp() {
         let instance = await this.flightSuretyApp.at(this._appAddress);
@@ -54,7 +81,7 @@ export default class Contract {
 
         return appOperationalResult;
     }
-    
+
     // Data Operationals
     async isOperationalData() {
         let instance = await this.flightSuretyApp.at(this._appAddress);
@@ -69,25 +96,6 @@ export default class Contract {
         let dataOperationalResult = await instance.isOperationalData({from: this.owner})
         
         return dataOperationalResult;    
-    }
-
-
-
-    async getRegisteredAirlines() {
-        const instance = await this.flightSuretyApp.at(this._appAddress);
-        let airlines = await instance.getRegisteredAirlinesArray()
-
-        console.log(airlines, "instance airlines return");
-        return airlines
-    }
-    
-    /**
-     * Note that you need to use call here, perhaps because of the return value
-     */
-
-    async registerAirline(address, registeredAirline) {
-        const instance = await this.flightSuretyApp.at(this._appAddress);
-        await instance.registerAirline(address, {from: registeredAirline});
     }
 
     async fetchFlightStatus(flight, callback) {
