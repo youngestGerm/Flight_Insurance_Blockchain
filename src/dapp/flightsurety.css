@@ -35,13 +35,14 @@ body {
 #app-operational-status-off { margin-top: 30px; }
 
 #submit-airline {
-    position: absolute;
-    right: 20%
+    position: relative;
+    left: 40%;   
+    margin-top: 10px;
 }
 
 #submit-oracle {
-    position: absolute;
-    right: 20%
+    position: relative;
+    right: -20%
 }
 
 /* END */
@@ -54,7 +55,7 @@ body {
     margin-top: 20px;
 } */
 #input-flight-ID-div { margin-top: 30px; }
-#input-airline-ID-div { margin-top: 20px }
+#input-airline-ID-div { }
 .top-21 {
     margin-top: 40px;
 }
@@ -113,6 +114,13 @@ input[type = text] {
     width: 50%; 
 }
 
+input[type = text-in-airline] {
+    width: 40%;
+    margin: 20px;
+    position: center;
+    opacity: 0.4;
+    text-align: center;
+}
 
 /* END */
 

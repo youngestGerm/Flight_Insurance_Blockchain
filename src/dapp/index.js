@@ -18,7 +18,7 @@ import './flightsurety.css';
         document.addEventListener('click', async _ => {
             let airlines = await contract.getRegisteredAirlines();
             console.log(window.ethereum.selectedAddress, await contract.getRegisteredAirlines())    
-            displayAirlines("Airline Registered", "airline-submission-update", [{error : airlines, value: airlines}]);
+            
 
         })
 
@@ -28,7 +28,7 @@ import './flightsurety.css';
        
 
         
-        
+        // NOTE: No error implementation yet
         initializer(contract)
         addOracleEventListner(contract);
         addAirlineEventListner(contract);
@@ -42,7 +42,7 @@ import './flightsurety.css';
 async function initializer(contract) {
     let airlines = await contract.getRegisteredAirlines();
     console.log(airlines, "airlines")
-    displayAirlines("Airline Registered", "airline-submission-update", [{error : airlines, value: airlines}]);
+    displayAirlines("", "airline-submission-update", [{error : airlines, value: airlines}]);
 }
 
 /**
@@ -53,23 +53,29 @@ function addAirlineEventListner(contract) {
      // Handle registering Airline
      DOM.elid('submit-airline').addEventListener('click', async _ => {
         //Handle checking whether the current address is registered or not
-        contract.registerAirline(DOM.elid('flight-register').value, window.ethereum.selectedAddress)
-
+        console.log("in registerAirlin")
+        contract.registerAirline(DOM.elid('flight-register-address').value,  DOM.elid('flight-register-name').value, window.ethereum.selectedAddress);
         
-    
     })
 }
+
 
 function addOracleEventListner(contract) {
     // Handle clicking submite oracle
-    DOM.elid('submit-oracle').addEventListener('click', _ => {
+    DOM.elid('submit-oracle').addEventListener('click', async _ => {
         let flight = DOM.elid('flight-number').value;
         // Write transaction
-        contract.fetchFlightStatus(flight, (error, result) => {
-            displayOracleStatus('Oracle Response', "oracle-submission", [ { error: error, value: result.flight + ' ' + result.timestamp} ]);
-        });
+        let result = await contract.fetchFlightStatus(flight)
+        displayOracleStatus('Oracle Response', "oracle-submission", [ {value: result.flight + ' ' + result.timestamp} ]);
     })
 }
+
+
+
+
+
+
+
 
 function addOperationalEventListners(contract){
 
@@ -119,6 +125,10 @@ function addOperationalEventListners(contract){
 }
 
 
+
+
+
+
 /**
  * Other HTML/CSS Functions
  */ 
@@ -128,7 +138,6 @@ function displayOracleStatus(title, idType, results) {
 
     let section = DOM.section();
     section.appendChild(DOM.h4(title));
-    // section.appendChild(DOM.h5(description));
 
     results.map((result) => {
         let row = section.appendChild(DOM.div({className:'col-sm-8 field-value', id: idType}, result.value ? result.value : result.error));
@@ -144,7 +153,6 @@ function displayAirlines(title, idType, results) {
 
     let section = DOM.section();
     section.appendChild(DOM.h4(title));
-    // section.appendChild(DOM.h5(description));
 
     results.map((result) => {
         let row = section.appendChild(DOM.div({className:'col-sm-8 field-value', id: idType}, result.value ? result.value : result.error));

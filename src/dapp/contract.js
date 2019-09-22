@@ -53,9 +53,13 @@ export default class Contract {
      * Note that you need to use call here, perhaps because of the return value
      */
 
-    async registerAirline(address, registeredAirline) {
+    async registerAirline(address, name, registeredAirline) {
         const instance = await this.flightSuretyApp.at(this._appAddress);
-        await instance.registerAirline(address, {from: registeredAirline});
+        await instance.registerAirline(address, name, {from: registeredAirline});
+
+
+
+
     }
 
 
@@ -97,18 +101,17 @@ export default class Contract {
         
         return dataOperationalResult;    
     }
-
-    async fetchFlightStatus(flight, callback) {
+    
+    //msg.sender is used, update this.owner to window.ethereum.selectedAddress
+    async fetchFlightStatus(flight) {
         let payload = {
             airline: this.airlines[0],
             flight: flight,
             timestamp: Math.floor(Date.now() / 1000)
         } 
 
-        this.flightSuretyApp.methods.fetchFlightStatus(payload.airline, payload.flight, payload.timestamp)
-            .send({ from: this.owner}, (error, result) => {
-                // result returns the transactionHash because there was no return in the function in the contract
-                callback(error, payload);
-            });
+        let instance = await this.flightSuretyApp.at(this._appAddress);
+        await instance.fetchFlightStatus(payload.airline, payload.flight, payload.timestamp, {from : this.owner})            
+        return payload;
     }
 }

@@ -14,6 +14,7 @@ contract FlightSuretyData {
     }
     
     struct Airline {
+        string name;
         bool exists;
         bool registered;
         bool funded; //is this 
@@ -48,7 +49,7 @@ contract FlightSuretyData {
                                 public 
     {
         contractOwner = msg.sender;
-        airlines[firstAirline] =  Airline(true, true, false, new bytes32[](0), Votes(0), 0);
+        airlines[firstAirline] =  Airline("Instantiator", true, true, false, new bytes32[](0), Votes(0), 0);
         registeredAirlineAddresses.push(firstAirline);
         registeredAirlines.add(1);
     }   
@@ -159,14 +160,16 @@ contract FlightSuretyData {
     */   
     function registerAirline
                             (   
-                                address airlineAddress, bool registered
+                                address airlineAddress, 
+                                bool registered,
+                                string airlineName
                             )
                             external
                             requireIsOperational
 
     {
         
-        airlines[airlineAddress] = Airline(true, registered, false, new bytes32[](0), Votes(0), 0);
+        airlines[airlineAddress] = Airline(airlineName, true, registered, false, new bytes32[](0), Votes(0), 0);
         airlinesCount.add(1);
         if (registered) {
             registeredAirlineAddresses.push(airlineAddress);

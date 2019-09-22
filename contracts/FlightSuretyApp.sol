@@ -151,7 +151,8 @@ contract FlightSuretyApp {
     */   
     function registerAirline
                             (   
-                            address airlineToRegister
+                            address airlineToRegister,
+                            string airlineName
                             )
                             external
                             requireIsOperational
@@ -163,11 +164,11 @@ contract FlightSuretyApp {
         require(data.airlineRegistered(msg.sender), "The airline currently attempting to register another airline is not registered");
 
         if (registeredAirlines >= 4) {
-            data.registerAirline(airlineToRegister, false);
+            data.registerAirline(airlineToRegister, false, airlineName);
             emit RegisteredAirline(true, totalVotes);
             // return data.getRegisteredAirlinesAddresses();
         } else { 
-            data.registerAirline(airlineToRegister, true);
+            data.registerAirline(airlineToRegister, true, airlineName);
             emit RegisteredAirline(true, totalVotes);
             // return data.getRegisteredAirlinesAddresses();
         }    
@@ -214,7 +215,7 @@ contract FlightSuretyApp {
     function fundAirline(address _address) public payable requireIsOperational requireAddressIsAirline(_address) {
         require(msg.sender == _address, "Only the airline can fund itself");
        
-        data.fund.value(11 ether)(_address);
+        data.fund.value(10)(_address);
     }
 
     // Generate a request for oracles to fetch flight information
@@ -239,8 +240,7 @@ contract FlightSuretyApp {
 
         emit OracleRequest(index, airline, flight, timestamp);
     } 
-
-
+    
 // region ORACLE MANAGEMENT
 
     // Incremented to add pseudo-randomness at various points
