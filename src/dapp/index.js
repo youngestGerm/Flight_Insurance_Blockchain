@@ -46,24 +46,18 @@ async function initializer(contract) {
  * Event Listners
  */ 
 
-function addAirlineEventListner(contract) {
-     // Handle registering Airline
-     DOM.elid('submit-airline').addEventListener('click', async _ => {
-        //Handle checking whether the current address is registered or not
-        console.log("in registerAirlin")
-        contract.registerAirline(DOM.elid('flight-register-address').value,  DOM.elid('flight-register-name').value, window.ethereum.selectedAddress);
-        
-    })
-
-    DOM.elid('submit-airline-funding').addEventListener('click', async _ => {
-        
-        // DOM.elid('airline-fund'.value)
-        contract.fundAirline(DOM.elid('airline-fund-address').value, window.ethereum.selectedAddress, DOM.elid('airline-fund').value * 1000000000000000000);
-        
-    })
-
-    
+function addSubmitFlightEventListner(contract) {
+    // contract.
 }
+
+
+
+
+
+
+
+
+
 
 
 function addOracleEventListner(contract) {
@@ -76,11 +70,22 @@ function addOracleEventListner(contract) {
     })
 }
 
+function addAirlineEventListner(contract) {
+    // Handle registering Airline
+    DOM.elid('submit-airline').addEventListener('click', async _ => {
+       //Handle checking whether the current address is registered or not
+       console.log("in registerAirlin")
+       contract.registerAirline(DOM.elid('flight-register-address').value,  DOM.elid('flight-register-name').value, window.ethereum.selectedAddress);
+       
+   })
 
-
-
-
-
+   DOM.elid('submit-airline-funding').addEventListener('click', async _ => {
+       
+       // DOM.elid('airline-fund'.value)
+       contract.fundAirline(DOM.elid('airline-fund-address').value, window.ethereum.selectedAddress, DOM.elid('airline-fund').value * 1000000000000000000);
+       
+   })
+}
 
 
 function addOperationalEventListners(contract){

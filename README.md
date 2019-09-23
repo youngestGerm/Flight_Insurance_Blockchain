@@ -91,3 +91,6 @@ When you are altering a property of a contract such as `address[] airlines`.
 * [Solidity Language Reference](http://solidity.readthedocs.io/en/v0.4.24/)
 * [Ethereum Blockchain Explorer](https://etherscan.io/)
 * [Web3Js Reference](https://github.com/ethereum/wiki/wiki/JavaScript-API)
+
+## NPM Installations
+- Truffle-contract : this allowed me to access and alter functions in the contract.
