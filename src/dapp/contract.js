@@ -41,18 +41,22 @@ export default class Contract {
     }
 
 
+    async registerFlight(flightNumber, flightTime, registeredAirline) {
+        const instance = await this.flightSuretyApp.at(this._appAddress);
+        await instance.registerFlight(flightNumber, flightTime, {from: registeredAirline});
+        console.log("Sucess in registering flight")
+    }
+
+
+
+
 
     async getRegisteredAirlines() {
         const instance = await this.flightSuretyApp.at(this._appAddress);
         let airlines = await instance.getRegisteredAirlinesArray();
-        
         console.log(airlines, "instance airlines return");
         return airlines
-    }
-    
-    /**
-     * Note that you need to use call here, perhaps because of the return value
-     */
+    } 
 
     async registerAirline(address, name, registeredAirline) {
         const instance = await this.flightSuretyApp.at(this._appAddress);
@@ -61,16 +65,10 @@ export default class Contract {
     }
 
     async fundAirline(address, callingAddress, airlineFundValue) {
-        console.log(address,callingAddress, "in fund")
         const instance = await this.flightSuretyApp.at(this._appAddress);
         await instance.fundAirline(address, {from: callingAddress, value: airlineFundValue});
         console.log("funded Airline")
     }
-
-
-
-
-
 
     // App Operationals
     async isOperationalApp() {
@@ -81,10 +79,8 @@ export default class Contract {
 
     async setOperationalApp(decision) {
         let instance = await this.flightSuretyApp.at(this._appAddress);
-        
         await instance.setOperationalApp(decision, {from: this.owner})
         let appOperationalResult = await instance.isOperationalApp({from: this.owner})
-
         return appOperationalResult;
     }
 
@@ -97,10 +93,8 @@ export default class Contract {
 
     async setOperationalData(decision) {
         let instance = await this.flightSuretyApp.at(this._appAddress);
-        
         await instance.setOperationalData(decision, {from: this.owner})
         let dataOperationalResult = await instance.isOperationalData({from: this.owner})
-        
         return dataOperationalResult;    
     }
     
@@ -111,7 +105,6 @@ export default class Contract {
             flight: flight,
             timestamp: Math.floor(Date.now() / 1000)
         } 
-
         let instance = await this.flightSuretyApp.at(this._appAddress);
         await instance.fetchFlightStatus(payload.airline, payload.flight, payload.timestamp, {from : this.owner})            
         return payload;

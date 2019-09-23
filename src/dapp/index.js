@@ -30,7 +30,7 @@ import './flightsurety.css';
         addOracleEventListner(contract);
         addAirlineEventListner(contract);
         addOperationalEventListners(contract);
-        
+        addSubmitFlightEventListner(contract)
     });
     
 
@@ -47,10 +47,13 @@ async function initializer(contract) {
  */ 
 
 function addSubmitFlightEventListner(contract) {
-    // contract.
+    // Format of flight time: 'December 17, 1995 03:24:00'
+    DOM.elid('submit-flight-info').addEventListener('click', async _ => {
+        let computerReadableDate = new Date(DOM.elid('flight-time').value).valueOf()
+    console.log(computerReadableDate, "computer date");
+    contract.registerFlight(DOM.elid('flight-register').value, computerReadableDate, window.ethereum.selectedAddress)
+    })
 }
-
-
 
 
 

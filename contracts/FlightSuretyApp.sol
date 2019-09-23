@@ -26,7 +26,7 @@ contract FlightSuretyApp {
     uint8 private constant STATUS_CODE_LATE_OTHER = 50;
     address private contractOwner;          // Account used to deploy contract
     bool private operational = true;
-    mapping(bytes32 => Flight) private flights;
+    mapping(address => Flight) private flights;
     FlightSuretyData data;
 
 
@@ -35,12 +35,11 @@ contract FlightSuretyApp {
     event OracleRequest(uint8 index, address airline, string flight, uint256 timestamp);
     event OperationalChange(bool change);
     event RegisteredAirline(bool threshold, uint votes);
+    event RegisteredFlight(string flightNumber, uint256 date);
 
     struct Flight {
-        bool isRegistered;
-        uint8 statusCode;
-        uint256 updatedTimestamp;        
-        address airline;
+        string flightNumber;
+        uint256 arrivalTime;        
     }
   
     /********************************************************************************************/
@@ -179,10 +178,17 @@ contract FlightSuretyApp {
     */  
     function registerFlight
                                 (
+                                    string flightNumber,
+                                    uint256 date
                                 )
                                 external
-                                pure
-    {
+                                
+                                requireIsOperational
+    {  
+        require(data.airlineRegistered(msg.sender), "This address is not registered, it can not log flights");
+
+        flights[msg.sender] = Flight(flightNumber, date);
+        emit RegisteredFlight(flightNumber, date);
     }
     
     function voteAirline (address votingFor) public requireIsOperational requireAirlineIsFunded(msg.sender) requireAddressIsAirline(votingFor) {
