@@ -45,6 +45,11 @@ body {
     right: -20%
 }
 
+#submit-airline-funding {
+    position: relative;
+    left: 33%;   
+    margin-top: 10px;
+}
 /* END */
 
 

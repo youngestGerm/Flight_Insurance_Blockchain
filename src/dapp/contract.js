@@ -57,13 +57,14 @@ export default class Contract {
         const instance = await this.flightSuretyApp.at(this._appAddress);
         await instance.registerAirline(address, name, {from: registeredAirline});
 
-
-
-
     }
 
-
-
+    async fundAirline(address, callingAddress, airlineFundValue) {
+        console.log(address,callingAddress, "in fund")
+        const instance = await this.flightSuretyApp.at(this._appAddress);
+        await instance.fundAirline(address, {from: callingAddress, value: airlineFundValue});
+        console.log("funded Airline")
+    }
 
 
 

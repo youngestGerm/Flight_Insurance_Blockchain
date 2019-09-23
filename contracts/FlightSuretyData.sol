@@ -232,6 +232,7 @@ contract FlightSuretyData {
                             payable
                             requireIsOperational requireAirlineRegistration(airlineAddress) 
     {
+        // revert("This is the value");
         require(msg.value >= 10 ether, "The airline did not pay the minimum requirements to be funded");
         airlines[airlineAddress].funded = true;
         fundedAirlines = fundedAirlines.add(1);

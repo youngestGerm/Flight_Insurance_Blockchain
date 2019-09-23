@@ -12,9 +12,6 @@ import './flightsurety.css';
     // INITIALIZATION OF CONTRACT OBJECT
     let contract = new Contract('localhost', async () => {
         
-        
-       
-
         document.addEventListener('click', async _ => {
             let airlines = await contract.getRegisteredAirlines();
             console.log(window.ethereum.selectedAddress, await contract.getRegisteredAirlines())    
@@ -22,9 +19,9 @@ import './flightsurety.css';
 
         })
 
-     
+        
 
-
+        
        
 
         
@@ -57,6 +54,15 @@ function addAirlineEventListner(contract) {
         contract.registerAirline(DOM.elid('flight-register-address').value,  DOM.elid('flight-register-name').value, window.ethereum.selectedAddress);
         
     })
+
+    DOM.elid('submit-airline-funding').addEventListener('click', async _ => {
+        
+        // DOM.elid('airline-fund'.value)
+        contract.fundAirline(DOM.elid('airline-fund-address').value, window.ethereum.selectedAddress, DOM.elid('airline-fund').value * 1000000000000000000);
+        
+    })
+
+    
 }
 
 
