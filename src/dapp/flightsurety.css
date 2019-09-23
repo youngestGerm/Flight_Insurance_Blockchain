@@ -34,22 +34,20 @@ body {
 #app-operational-status-on { margin-top: 30px; }
 #app-operational-status-off { margin-top: 30px; }
 
-#submit-airline {
-    position: relative;
-    left: 40%;   
+#submit-airline { 
     margin-top: 10px;
 }
-
+#submit-airline-funding {   
+    margin-top: 10px;
+}
 #submit-oracle {
     position: relative;
     right: -20%
 }
-
-#submit-airline-funding {
-    position: relative;
-    left: 33%;   
+#submit-flight-info {
     margin-top: 10px;
 }
+
 /* END */
 
 
@@ -60,11 +58,13 @@ body {
     margin-top: 20px;
 } */
 #input-flight-ID-div { margin-top: 30px; }
-#input-airline-ID-div { }
+
 .top-21 {
     margin-top: 40px;
 }
 /* END */
+
+/* Headings */
 
 h1 {
     color: rgb(249, 199, 199);
@@ -81,10 +81,16 @@ h5 {
     opacity: 0.8;
 }
 
+h6 {
+    opacity: 0.8;
+}
+
+/* END */
+
 /* Sections */
 
 section {
-    margin-bottom: 50px;
+    margin-bottom: 25px;
 }
 
 #airline-submission-update {
@@ -120,12 +126,26 @@ input[type = text] {
 }
 
 input[type = text-in-airline] {
-    width: 40%;
-    margin: 20px;
+    
+    margin: 5px;
     position: center;
     opacity: 0.4;
     text-align: center;
+    width: 100%
 }
+
+/* #airline-fund {
+    width: 100%;
+}
+#airline-fund-address {
+    width: 100%;
+}
+#flight-register-address {
+    width: 100%;
+}
+#flight-register-name {
+    width: 100%;
+} */
 
 /* END */
 

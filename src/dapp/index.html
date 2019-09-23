@@ -51,11 +51,12 @@
         <h1> Airline Functions </h1>
         <section>
             <h4>Register Airline</h4>
-            <div id = "input-airline-ID-div"> 
-                <input type="text-in-airline" id="flight-register-address" placeholder="Airline address"> 
-                <input type="text-in-airline" id="flight-register-name" placeholder="Airline name">
-            </div>
-            <div>
+            <h6> Airline Address </h6>
+            <input type="text-in-airline" id="flight-register-address" placeholder="Airline address"> 
+            <h6> Airline Name </h6>
+            <input type="text-in-airline" id="flight-register-name" placeholder="Airline name">
+            
+            <div style="text-align:center;">    
                 <btn class="btn btn-primary" id="submit-airline">Register Airline</btn>
             </div>
 
@@ -63,11 +64,24 @@
         
         <section>
             <h4>Fund Airline</h4>
-            <div>
-                <input type="text-in-airline" id= "airline-fund-address" placeholder="Funding airline address"> </input>
-                <input type="text-in-airline" id= "airline-fund" placeholder="Fund amount"> </input>
+            <h6> Airline Address </h6>
+            <input type="text-in-airline" id= "airline-fund" placeholder="Fund amount"> </input>
+            <h6> Fund Airline Amount </h6>
+            <input type="text-in-airline" id= "airline-fund-address" placeholder="Funding airline address"> </input>
+            <div style="text-align:center;">    
+                <btn class = "btn btn-primary" id="submit-airline-funding"> Submit Funding Amount </btn>
             </div>
-            <btn class = "btn btn-primary" id="submit-airline-funding"> Submit Funding Amount </btn>
+        </section>
+
+        <section>
+            <h4>Register New Flight</h4>
+            <h6> Flight Number </h6>
+            <input type="text-in-airline" id= "flight-register" placeholder="Insert flight number here"> </input>
+            <h6> Flight Time </h6>
+            <input type="text-in-airline" id= "flight-time" placeholder="Flight time"> </input>
+            <div style="text-align:center;">    
+                <btn class = "btn btn-primary" id="submit-flight-info"> Submit Flight Information </btn>
+            </div>
         </section>
 
         <h4>Airline Registration Ledger</h4>

@@ -215,7 +215,7 @@ contract FlightSuretyApp {
     function fundAirline(address _address) public payable requireIsOperational requireAddressIsAirline(_address) {
         require(msg.sender == _address, "Only the airline can fund itself");
        
-        data.fund.value(10 ether)(_address);
+        data.fund.value(msg.value)(_address);
     }
 
     // Generate a request for oracles to fetch flight information

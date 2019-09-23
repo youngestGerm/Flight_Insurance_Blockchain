@@ -2,7 +2,8 @@ import FlightSuretyApp from '../../build/contracts/FlightSuretyApp.json';
 import Config from './config.json';
 import Web3 from 'web3';
 var contract = require("truffle-contract");
-
+var BigNumber = require('big-number');
+var web3 = require('web3')
 export default class Contract {
 
     constructor(network, callback) {
