@@ -1,3 +1,30 @@
+
+/* Nav bar items */
+
+header li {
+    display: inline;
+    padding: 10px;
+    float: right;
+}
+header a {
+    color: white;
+    font-size: 20px;
+    
+}
+header ul{
+    /* margin-top: 15px; */
+    position: absolute;
+    right: 10%;
+    top: 10%;
+}
+
+header a:hover {
+    color: #cccccc;
+    font-weight: bold;
+}
+
+
+/* END */
 body {
     background-image: url('flight.jpg'); /* Source: iStockPhoto */
     background-repeat: no-repeat;
@@ -21,6 +48,15 @@ body {
     padding: 50px;
     margin: 100px;
 
+}
+
+.container3 {
+    margin-top: 200px;
+    background-color: rgb(0, 0, 0);
+    opacity: 0.8;
+    color: #fff;
+    padding: 50px;
+    margin: 100px;
 }
 
 /* Buttons */
@@ -134,10 +170,12 @@ input[type = text-in-airline] {
     width: 100%
 }
 
-/* #airline-fund {
-    width: 100%;
+#airline-fund {
+    width: 80%;
+
 }
-#airline-fund-address {
+
+/* #airline-fund-address {
     width: 100%;
 }
 #flight-register-address {
@@ -145,7 +183,7 @@ input[type = text-in-airline] {
 }
 #flight-register-name {
     width: 100%;
-} */
+}  */
 
 /* END */
 

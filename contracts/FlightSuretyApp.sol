@@ -182,7 +182,6 @@ contract FlightSuretyApp {
                                     uint256 date
                                 )
                                 external
-                                
                                 requireIsOperational
     {  
         require(data.airlineRegistered(msg.sender), "This address is not registered, it can not log flights");

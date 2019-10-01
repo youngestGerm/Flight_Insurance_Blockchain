@@ -10,16 +10,23 @@
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">FlightSurety</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#">FlightSurety</a>
+            <ul>
+                <li><a href="passenger.html"> PASSENGER FUNCTIONS </a></li>
+                <li><a href="airline.html"> AIRLINE FUNCTIONS </a></li>
+                <li class="current"><a href="index.html"> ADMIN FUNCTIONS </a></li>
+            </ul>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </header>
     
-    // class is accessible in css, id is accessible in js
+    
+    <!-- class is accessible in css, id is accessible in js -->
     <main class="container1">
         <h1> Admin Functions </h1>
 
@@ -47,48 +54,7 @@
         <div id="display-wrapper-oracle-status" class="oracle-status-response"> </div>
     </main>
 
-    <main class="container2"> 
-        <h1> Airline Functions </h1>
-        <section>
-            <h4>Register Airline</h4>
-            <h6> Airline Address </h6>
-            <input type="text-in-airline" id="flight-register-address" placeholder="Airline address"> 
-            <h6> Airline Name </h6>
-            <input type="text-in-airline" id="flight-register-name" placeholder="Airline name">
-            
-            <div style="text-align:center;">    
-                <btn class="btn btn-primary" id="submit-airline">Register Airline</btn>
-            </div>
-
-        </section>
-        <section>
-            <h4>Fund Airline</h4>
-            <h6> Airline Address </h6>
-            <input type="text-in-airline" id= "airline-fund" placeholder="Fund amount"> </input>
-            <h6> Fund Airline Amount </h6>
-            <input type="text-in-airline" id= "airline-fund-address" placeholder="Funding airline address"> </input>
-            <div style="text-align:center;">    
-                <btn class = "btn btn-primary" id="submit-airline-funding"> Submit Funding Amount </btn>
-            </div>
-        </section>
-
-        <section>
-            <h4>Register New Flight</h4>
-            <h6> Flight Number </h6>
-            <input type="text-in-airline" id= "flight-register" placeholder="Insert flight number here"> </input>
-            <h6> Flight Time </h6>
-            <input type="text-in-airline" id= "flight-time" placeholder="Flight time (e.g. December 17, 1995 03:24:00)"> </input>
-            <div style="text-align:center;">    
-                <btn class = "btn btn-primary" id="submit-flight-info"> Submit Flight Information </btn>
-            </div>
-        </section>
-
-        <h4>Airline Registration Ledger</h4>
-
-        <div id="display-wrapper-registered-airlines" class="registered-airlines"> </div>
-
-    </main> 
-
+   
 </body>
 
 </html>
