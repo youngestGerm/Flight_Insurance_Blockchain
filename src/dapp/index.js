@@ -12,12 +12,12 @@ import './flightsurety.css';
     // INITIALIZATION OF CONTRACT OBJECT
     let contract = new Contract('localhost', async () => {
         
-        document.addEventListener('click', async _ => {
-            let airlines = await contract.getRegisteredAirlines();
-            console.log(window.ethereum.selectedAddress, await contract.getRegisteredAirlines())    
+        // document.addEventListener('click', async _ => {
+        //     let airlines = await contract.getRegisteredAirlines();
+        //     console.log(window.ethereum.selectedAddress, await contract.getRegisteredAirlines())    
             
 
-        })
+        // })
 
         
 
@@ -26,6 +26,8 @@ import './flightsurety.css';
 
         
         // NOTE: No error implementation yet
+        // Note that everytime a new page is reloaded, admin functions, etc the functions below get reloaded.
+        // If a document does not have a certain id, as not all pages from the site contain all the elementids listed here, the function will crash as well as all the subsequent functions.
         initializer(contract)
         addOracleEventListner(contract);
         addAirlineEventListner(contract);
@@ -39,7 +41,10 @@ import './flightsurety.css';
 async function initializer(contract) {
     let airlines = await contract.getRegisteredAirlines();
     console.log(airlines, "airlines")
-    displayAirlines("", "airline-submission-update", [{error : airlines, value: airlines}]);
+    try {
+        displayAirlines("", "airline-submission-update", [{error : airlines, value: airlines}]);
+    } catch {}
+    
 }
 
 /**
@@ -52,38 +57,47 @@ async function initializer(contract) {
  
 function addSubmitFlightEventListner(contract) {
     // Format of flight time: 'December 17, 1995 03:24:00'
-    DOM.elid('submit-flight-info').addEventListener('click', async _ => {
-        let computerReadableDate = new Date(DOM.elid('flight-time').value).valueOf()
-        console.log(computerReadableDate, "computer date");
-        contract.registerFlight(DOM.elid('flight-register').value, computerReadableDate, window.ethereum.selectedAddress)
-    })
+    try {
+        document.getElementById('submit-flight-info').addEventListener('click', async _ => {
+            console.log("computer date");
+            let computerReadableDate = new Date(DOM.elid('flight-time').value).valueOf()
+            console.log(computerReadableDate, "computer date");
+            contract.registerFlight(DOM.elid('flight-register').value, computerReadableDate, window.ethereum.selectedAddress)
+        })
+    } catch {}
 }
 
 function addOracleEventListner(contract) {
     // Handle clicking submite oracle
-    DOM.elid('submit-oracle').addEventListener('click', async _ => {
-        let flight = DOM.elid('flight-number').value;
-        // Write transaction
-        let result = await contract.fetchFlightStatus(flight)
-        displayOracleStatus('Oracle Response', "oracle-submission", [ {value: result.flight + ' ' + result.timestamp} ]);
-    })
+    try {
+        DOM.elid('submit-oracle').addEventListener('click', async _ => {
+            let flight = DOM.elid('flight-number').value;
+            // Write transaction
+            let result = await contract.fetchFlightStatus(flight)
+            displayOracleStatus('Oracle Response', "oracle-submission", [ {value: result.flight + ' ' + result.timestamp} ]);
+        })
+    }catch {}
+    
 }
 
 function addAirlineEventListner(contract) {
     // Handle registering Airline
-    DOM.elid('submit-airline').addEventListener('click', async _ => {
-       //Handle checking whether the current address is registered or not
-       console.log("in registerAirlin")
-       contract.registerAirline(DOM.elid('flight-register-address').value,  DOM.elid('flight-register-name').value, window.ethereum.selectedAddress);
-       
-   })
-
-   DOM.elid('submit-airline-funding').addEventListener('click', async _ => {
-       
-       // DOM.elid('airline-fund'.value)
-       contract.fundAirline(DOM.elid('airline-fund-address').value, window.ethereum.selectedAddress, DOM.elid('airline-fund').value * 1000000000000000000);
-       
-   })
+    try {
+        DOM.elid('submit-airline').addEventListener('click', async _ => {
+            //Handle checking whether the current address is registered or not
+            console.log("in registerAirlin")
+            contract.registerAirline(DOM.elid('flight-register-address').value,  DOM.elid('flight-register-name').value, window.ethereum.selectedAddress);
+            
+        })
+     
+        DOM.elid('submit-airline-funding').addEventListener('click', async _ => {
+            
+            // DOM.elid('airline-fund'.value)
+            contract.fundAirline(DOM.elid('airline-fund-address').value, window.ethereum.selectedAddress, DOM.elid('airline-fund').value * 1000000000000000000);
+            
+        })
+    } catch {}
+    
 }
 
 
@@ -92,7 +106,8 @@ function addOperationalEventListners(contract){
     // Read app operational status
     const appIsOperational = contract.isOperationalApp()
     console.log(`dapp app contract is ${appIsOperational ? "" : "not"} operational`)
-    DOM.elid('app-operational-status-message').innerHTML = appIsOperational ? "Ready to deploy with all functions available" : "Not ready to deploy";
+    try {
+        DOM.elid('app-operational-status-message').innerHTML = appIsOperational ? "Ready to deploy with all functions available" : "Not ready to deploy";
 
     // Read data operational status
     const dataIsOperational = contract.isOperationalData()
@@ -132,6 +147,10 @@ function addOperationalEventListners(contract){
         console.log(`dapp data contract is ${setDataOperationalResultOff ? "" : "not"} operational`)
         DOM.elid('data-operational-status-message').innerHTML = setDataOperationalResultOff ? "Ready to deploy with all functions available" : "Not ready to deploy";
     })
+    } catch {}
+    
+
+    
 }
 
 

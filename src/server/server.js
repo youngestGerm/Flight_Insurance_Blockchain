@@ -26,16 +26,22 @@ let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddre
 
 // This is how to retrieve event data
 flightSuretyApp.events.OracleRequest((err, results) => {
-  console.log("\x1b[36m%s\x1b[0m", results.event, results.returnValues, "*******Event Return Value********");
+  console.log("\x1b[36m%s\x1b[0m", "Oracle Request", results.event, results.returnValues, "*******Event Return Value********");
 });
 
 flightSuretyApp.events.OperationalChange((err, results) => {
-  console.log("\x1b[43m%s\x1b[0m", results.event, results.returnValues[0], "*******Event Return Value********")
+  console.log("\x1b[43m%s\x1b[0m", "Operational Change", results.event, results.returnValues[0], "*******Event Return Value********")
 })
 
 flightSuretyApp.events.RegisteredAirline((err, results) => {
-  console.log("\x1b[32m%s\x1b[0m", results.event, results.returnValues[0], "*******Event Return Value********")
+  console.log("\x1b[32m%s\x1b[0m", "Registered Airline", results.event, results.returnValues[0], "*******Event Return Value********")
 })
+
+flightSuretyApp.events.RegisteredFlight((err, results) => {
+  console.log("\x1b[44m%s\x1b[0m", "Registered Flight", results.event, results.returnValues[0], "*******Event Return Value********")
+})
+
+
 
 const app = express();
 app.get('/api', (req, res) => {
