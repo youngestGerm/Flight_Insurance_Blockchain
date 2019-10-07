@@ -170,6 +170,14 @@ input[type = text-in-airline] {
     width: 100%
 }
 
+input[type = text-in-passenger] {
+    margin: 5px;
+    position: center;
+    opacity: 0.4;
+    text-align: center;
+    width: 100%
+}
+
 /* #airline-fund-address {
     width: 100%;
 }
