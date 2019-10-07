@@ -23,9 +23,14 @@ contract FlightSuretyData {
         uint numberOfInsurance;
     }
 
+    // struct Passenger {
+    //     string name;
+    // }
+
     address private contractOwner;                                      // Account used to deploy contract
     bool private operational = true;                                    // Blocks all state changes throughout the contract if false
     mapping (address => Airline) private airlines;
+    
     address[] registeredAirlineAddresses;
     mapping (address => bool) private authorizedCallers;
     uint private registeredAirlines = 0;
@@ -149,6 +154,9 @@ contract FlightSuretyData {
     function getRegisteredAirlinesAddresses() public view requireIsOperational returns(address[] memory) {
         return registeredAirlineAddresses;
     }
+     function getFlightNumber(address airlineAddress) public view requireIsOperational returns(bytes32[] memory) {
+        return airlines[airlineAddress].flightKeys;
+    }
     /********************************************************************************************/
     /*                                     SMART CONTRACT FUNCTIONS                             */
     /********************************************************************************************/
@@ -185,15 +193,24 @@ contract FlightSuretyData {
 
     }
 
+   
+
+    function addFlightCode(bytes32 code) external {
+        airlines[msg.sender].flightKeys.push(code);
+    }
+
+
    /**
     * @dev Buy insurance for a flight
     *
     */   
 
-    function buy ()
+    function buy(string airlineAddress)
                             external
                             payable
     {
+        // require(msg.value != 0, "Value sent is zero");
+        // airlines[airlineAddress].numberOfInsurance = airlines[airlineAddress].numberOfInsurance + 1;
     }
 
     /**

@@ -178,6 +178,10 @@ input[type = text-in-passenger] {
     width: 100%
 }
 
+.passenger-buttons btn{
+    margin: 10px;   
+}
+
 /* #airline-fund-address {
     width: 100%;
 }

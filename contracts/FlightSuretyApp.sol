@@ -35,11 +35,12 @@ contract FlightSuretyApp {
     event OracleRequest(uint8 index, address airline, string flight, uint256 timestamp);
     event OperationalChange(bool change);
     event RegisteredAirline(bool threshold, uint votes);
-    event RegisteredFlight(string flightNumber, uint256 date);
+    event RegisteredFlight(bytes32 flightNumber, uint256 date);
 
     struct Flight {
-        string flightNumber;
-        uint256 arrivalTime;        
+        bytes32 flightNumber;
+        uint256 arrivalTime;  
+        address AirlineAddress;      
     }
   
     /********************************************************************************************/
@@ -144,6 +145,11 @@ contract FlightSuretyApp {
     /********************************************************************************************/
     /*                                     SMART CONTRACT FUNCTIONS                             */
     /********************************************************************************************/
+//    View allows you to see the return value from the async/await code in the contract.js file
+    function flightNumber(address airlineAddress) public view requireIsOperational returns(bytes32[] memory){
+        return data.getFlightNumber(airlineAddress);
+    }
+   
    /**
     * @dev Add an airline to the registration queue
     *
@@ -178,15 +184,16 @@ contract FlightSuretyApp {
     */  
     function registerFlight
                                 (
-                                    string flightNumber,
+                                    bytes32 flightNumber,
+
                                     uint256 date
                                 )
                                 external
                                 requireIsOperational
     {  
         require(data.airlineRegistered(msg.sender), "This address is not registered, it can not log flights");
-
-        flights[msg.sender] = Flight(flightNumber, date);
+        flights[msg.sender] = Flight(flightNumber, date, msg.sender);
+        data.addFlightCode(flightNumber);
         emit RegisteredFlight(flightNumber, date);
     }
     
@@ -206,7 +213,7 @@ contract FlightSuretyApp {
     */  
     function processFlightStatus
                                 (
-                                    address airline,
+                                    address airlineAddress,
                                     string memory flight,
                                     uint256 timestamp,
                                     uint8 statusCode
@@ -214,14 +221,11 @@ contract FlightSuretyApp {
                                 internal
                                 pure
     {
-
     }
-
+    
     function fundAirline(address _address) public payable requireIsOperational requireAddressIsAirline(_address) {
         require(msg.sender == _address, "Only the airline can fund itself");
-       
         data.fund.value(msg.value)(_address);
-        
     }
 
     // Generate a request for oracles to fetch flight information
