@@ -33,6 +33,7 @@ import './flightsurety.css';
         addAirlineEventListner(contract);
         addOperationalEventListners(contract);
         addSubmitFlightEventListner(contract)
+        addGetFlightsEventListner(contract);
     });
     
 
@@ -52,7 +53,13 @@ async function initializer(contract) {
  */ 
 
 
-
+function addGetFlightsEventListner(contract) {
+    try {
+        DOM.elid("get-flights").addEventListener('click', async _ => {
+            await contract.getFlightInformation(window.ethereum.selectedAddress);
+        })
+    } catch {}
+}
 
  
 function addSubmitFlightEventListner(contract) {
@@ -61,6 +68,7 @@ function addSubmitFlightEventListner(contract) {
         document.getElementById('submit-flight-info').addEventListener('click', async _ => {
             let computerReadableDate = new Date(DOM.elid('flight-time').value).valueOf()
             let flightNumber = await contract.registerFlight(DOM.elid('flight-register').value, computerReadableDate, window.ethereum.selectedAddress)
+            
             console.log(flightNumber, "Flight nu")
 
         })

@@ -154,8 +154,8 @@ contract FlightSuretyData {
     function getRegisteredAirlinesAddresses() public view requireIsOperational returns(address[] memory) {
         return registeredAirlineAddresses;
     }
-     function getFlightNumber(address airlineAddress) public view requireIsOperational returns(bytes32[] memory) {
-        return airlines[airlineAddress].flightKeys;
+    function getFlightNumber() public view requireIsOperational returns(bytes32[] memory) {
+        return airlines[msg.sender].flightKeys;
     }
     /********************************************************************************************/
     /*                                     SMART CONTRACT FUNCTIONS                             */

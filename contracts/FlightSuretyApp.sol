@@ -146,8 +146,8 @@ contract FlightSuretyApp {
     /*                                     SMART CONTRACT FUNCTIONS                             */
     /********************************************************************************************/
 //    View allows you to see the return value from the async/await code in the contract.js file
-    function flightNumber(address airlineAddress) public view requireIsOperational returns(bytes32[] memory){
-        return data.getFlightNumber(airlineAddress);
+    function getFlightNumberFromData() public view requireIsOperational returns(bytes32[] memory){
+        return data.getFlightNumber();
     }
    
    /**
@@ -180,8 +180,11 @@ contract FlightSuretyApp {
     }
    /**
     * @dev Register a future flight for insuring.
-    *
+    * 819199440000
+    * 0x657468657265756d000000000000000000000000000000000000000000000000
+    * December 17, 1995 03:24:00
     */  
+    
     function registerFlight
                                 (
                                     bytes32 flightNumber,
@@ -192,7 +195,7 @@ contract FlightSuretyApp {
                                 requireIsOperational
     {  
         require(data.airlineRegistered(msg.sender), "This address is not registered, it can not log flights");
-        flights[msg.sender] = Flight(flightNumber, date, msg.sender);
+        flights[msg.sender] =  Flight(flightNumber, date, msg.sender);
         data.addFlightCode(flightNumber);
         emit RegisteredFlight(flightNumber, date);
     }
