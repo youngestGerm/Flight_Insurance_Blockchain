@@ -34,11 +34,11 @@ flightSuretyApp.events.OperationalChange((err, results) => {
 })
 
 flightSuretyApp.events.RegisteredAirline((err, results) => {
-  console.log("\x1b[32m%s\x1b[0m", "Registered Airline", results.event, results.returnValues[0], "*******Event Return Value********")
+  console.log("\x1b[32m%s\x1b[0m", "Registered Airline", results.event, results.returnValues, "*******Event Return Value********")
 })
 
 flightSuretyApp.events.RegisteredFlight((err, results) => {
-  console.log("\x1b[44m%s\x1b[0m", "Registered Flight", results.event, results.returnValues[0], "*******Event Return Value********")
+  console.log("\x1b[44m%s\x1b[0m", "Registered Flight", results.event, results.returnValues, "*******Event Return Value********")
 })
 
 

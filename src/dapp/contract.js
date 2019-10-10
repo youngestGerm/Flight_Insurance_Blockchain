@@ -40,13 +40,13 @@ export default class Contract {
         });
     }
 
-    async getFlightInformation(registeredAirline) {
+    async getFlightInformation(registeredAirline, flightCode) {
         let instance = await this.flightSuretyApp.at(this._appAddress);
-
-        let flightNumberData = await instance.getFlightNumberFromData({from: registeredAirline});
-        console.log("flight data: ", flightNumberData);
+        let flightNumberData = await instance.getFlightNumberFromData(web3.utils.fromAscii(flightCode), {from: registeredAirline});
+        console.log(flightNumberData["arrivalT"].toNumber(), flightNumberData["status"].toNumber(), flightNumberData["insuredAmount"].toNumber());        
     }
 
+    
 
     async registerFlight(flightNumber, flightTime, registeredAirline) {
         console.log("in register flight")
@@ -55,9 +55,6 @@ export default class Contract {
         console.log(f_number, flightTime);
         const instance = await this.flightSuretyApp.at(this._appAddress);
         await instance.registerFlight(f_number, flightTime, {from: registeredAirline});
-        let flightNumberReturned = await instance.getFlightNumberFromData({from: registeredAirline});
-        console.log("Sucess in registering flight", flightNumberReturned);
-        return flightNumberReturned
     }
 
     async getRegisteredAirlines() {

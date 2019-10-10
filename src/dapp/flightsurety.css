@@ -182,6 +182,10 @@ input[type = text-in-passenger] {
     margin: 10px;   
 }
 
+#insurance-amount{
+    width: 93%;
+}
+
 /* #airline-fund-address {
     width: 100%;
 }

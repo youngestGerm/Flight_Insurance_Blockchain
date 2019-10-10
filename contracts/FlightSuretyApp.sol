@@ -26,7 +26,7 @@ contract FlightSuretyApp {
     uint8 private constant STATUS_CODE_LATE_OTHER = 50;
     address private contractOwner;          // Account used to deploy contract
     bool private operational = true;
-    mapping(address => Flight) private flights;
+    mapping(bytes32 => Flight) private flights;
     FlightSuretyData data;
 
 
@@ -38,9 +38,9 @@ contract FlightSuretyApp {
     event RegisteredFlight(bytes32 flightNumber, uint256 date);
 
     struct Flight {
-        bytes32 flightNumber;
         uint256 arrivalTime;  
-        address AirlineAddress;      
+        uint256 flightStatus;
+        uint256 insuredAmount;      
     }
   
     /********************************************************************************************/
@@ -146,8 +146,18 @@ contract FlightSuretyApp {
     /*                                     SMART CONTRACT FUNCTIONS                             */
     /********************************************************************************************/
 //    View allows you to see the return value from the async/await code in the contract.js file
-    function getFlightNumberFromData() public view requireIsOperational returns(bytes32[] memory){
-        return data.getFlightNumber();
+    function getFlightNumberFromData(bytes32 flightCode) public view requireIsOperational 
+        returns(
+        uint256 arrivalT,
+        uint256 status,
+        uint256 insuredAmount
+        )
+    {
+        return (
+            flights[flightCode].arrivalTime,
+            flights[flightCode].flightStatus,
+            flights[flightCode].insuredAmount
+        );
     }
    
    /**
@@ -180,22 +190,22 @@ contract FlightSuretyApp {
     }
    /**
     * @dev Register a future flight for insuring.
-    * 819199440000
-    * 0x657468657265756d000000000000000000000000000000000000000000000000
-    * December 17, 1995 03:24:00
+    *int256 arrivalTime;  
+        uint256 flightStatus;
+        uint256 insuredAmount; 
     */  
     
     function registerFlight
                                 (
                                     bytes32 flightNumber,
-
                                     uint256 date
+
                                 )
                                 external
                                 requireIsOperational
     {  
         require(data.airlineRegistered(msg.sender), "This address is not registered, it can not log flights");
-        flights[msg.sender] =  Flight(flightNumber, date, msg.sender);
+        flights[flightNumber] =  Flight(date, STATUS_CODE_ON_TIME, 0);
         data.addFlightCode(flightNumber);
         emit RegisteredFlight(flightNumber, date);
     }
