@@ -42,9 +42,11 @@ import './flightsurety.css';
 
 async function initializer(contract) {
     let airlines = await contract.getRegisteredAirlines();
-    console.log(airlines, "airlines")
+    
+    
     try {
-        displayAirlines("", "airline-submission-update", [{error : airlines, value: airlines}]);
+        displayAirlines("airline-submission-update", [{value: airlines}]);
+        
     } catch {}
     
 }
@@ -63,11 +65,10 @@ async function initializer(contract) {
 function addBuyInsuranceEventListner(contract) {
     try {
         DOM.elid("buy-insurance").addEventListener('click', async _ => {
-            console.log("in buy insurance")
+
+            await contract.buyFlightInsurance(DOM.elid("insurance-amount").value, DOM.elid("flight-number").value, DOM.elid("flight-company").value, window.ethereum.selectedAddress);            
             
-            await contract.buyFlightInsurance(DOM.elid("insurance-amount").value, DOM.elid("flight-company").value, window.ethereum.selectedAddress);
         })
-    
     } catch {}
     
 }
@@ -75,8 +76,8 @@ function addBuyInsuranceEventListner(contract) {
 function addGetFlightsEventListner(contract) {
     try {
         DOM.elid("get-flights").addEventListener('click', async _ => {
-            
-            await contract.getFlightInformation(window.ethereum.selectedAddress, DOM.elid("flight-number").value);
+            let flightInformations = await contract.getFlightInformation(window.ethereum.selectedAddress, DOM.elid("flight-number").value);   
+            displayBoughtInsurance("", [{value: flightInformations}]);
         })
     } catch {}
 }
@@ -99,7 +100,7 @@ function addOracleEventListner(contract) {
             let flight = DOM.elid('flight-number').value;
             // Write transaction
             let result = await contract.fetchFlightStatus(flight)
-            displayOracleStatus('Oracle Response', "oracle-submission", [ {value: result.flight + ' ' + result.timestamp} ]);
+            displayOracleStatus("oracle-submission", [ {value: result.flight + ' ' + result.timestamp} ]);
         })
     }catch {}
     
@@ -110,21 +111,80 @@ function addAirlineEventListner(contract) {
     try {
         DOM.elid('submit-airline').addEventListener('click', async _ => {
             //Handle checking whether the current address is registered or not
-            console.log("in registerAirlin")
-            contract.registerAirline(DOM.elid('flight-register-address').value,  DOM.elid('flight-register-name').value, window.ethereum.selectedAddress);
-            
+            await contract.registerAirline(DOM.elid('flight-register-address').value,  DOM.elid('flight-register-name').value, window.ethereum.selectedAddress);
+            location.reload();            
         })
      
         DOM.elid('submit-airline-funding').addEventListener('click', async _ => {
             
             // DOM.elid('airline-fund'.value)
-            contract.fundAirline(DOM.elid('airline-fund-address').value, window.ethereum.selectedAddress, DOM.elid('airline-fund').value * 1000000000000000000);
+            await contract.fundAirline(DOM.elid('airline-fund-address').value, window.ethereum.selectedAddress, DOM.elid('airline-fund').value * 1000000000000000000);
             
         })
     } catch {}
     
 }
 
+
+
+
+
+
+
+
+/**
+ * Other HTML/CSS Functions
+ */ 
+
+function displayOracleStatus(idType, results) {
+    let displayDiv = DOM.elid("display-wrapper-oracle-status");
+    let section = DOM.section();
+    let row = section.appendChild(DOM.div({className:'col-sm-8 field-value', id: idType}, results[0].value));
+    section.appendChild(row);
+    displayDiv.append(section);
+}
+
+function displayAirlines(idType, results) {
+    let displayDiv = DOM.elid("display-wrapper-registered-airlines");
+    let section = DOM.section();
+    results[0].value.map(result => {
+        console.log(result, "airlines")
+        let row = section.appendChild(DOM.div({className:'col-sm-8 field-value', id: idType}, result));
+        section.appendChild(row);
+    })
+    displayDiv.append(section);
+}
+
+
+// Create a function that displays the passenger insurances bought
+function displayBoughtInsurance(idType, results) {
+    let displayDiv = DOM.elid("display-wrapper-bought-insurance");
+    let section = DOM.section();
+    // console.log(results[0].value)
+    results.map(result => {
+        console.log(result, "result")
+        for (let key in result) {
+            let rowArrivalTime = new Date(result[key].arrivalTime);
+            
+            let rowFlightStatus = result[key].flightStatus;
+            let rowIndividualFlightInsurees = result[key].individualFlightInsurees;
+            let rowTotalInsuredAmount = result[key].totalInsuredAmount;
+            let row = section.appendChild(DOM.div({className: 'col-sm-8 field-value', id: idType}, `Arrival Time: ${rowArrivalTime.toString()}, Flight Status: ${rowFlightStatus}, Flight Insurees: ${rowIndividualFlightInsurees}, Total Insured Amount: ${rowTotalInsuredAmount}`))
+
+            section.appendChild(row);
+        }
+    })
+
+    displayDiv.append(section)
+
+}
+
+
+
+/**
+ * Operational Events: 
+ * This is to stop the contract when necessary.
+ */
 
 function addOperationalEventListners(contract){
 
@@ -173,46 +233,4 @@ function addOperationalEventListners(contract){
         DOM.elid('data-operational-status-message').innerHTML = setDataOperationalResultOff ? "Ready to deploy with all functions available" : "Not ready to deploy";
     })
     } catch {}
-    
-
-    
-}
-
-
-
-
-
-
-/**
- * Other HTML/CSS Functions
- */ 
-
-function displayOracleStatus(title, idType, results) {
-    let displayDiv = DOM.elid("display-wrapper-oracle-status");
-
-    let section = DOM.section();
-    section.appendChild(DOM.h4(title));
-
-    results.map((result) => {
-        let row = section.appendChild(DOM.div({className:'col-sm-8 field-value', id: idType}, result.value ? result.value : result.error));
-        section.appendChild(row);
-    })
-
-    displayDiv.append(section);
-
-}
-
-function displayAirlines(title, idType, results) {
-    let displayDiv = DOM.elid("display-wrapper-registered-airlines");
-
-    let section = DOM.section();
-    section.appendChild(DOM.h4(title));
-
-    results.map((result) => {
-        let row = section.appendChild(DOM.div({className:'col-sm-8 field-value', id: idType}, result.value ? result.value : result.error));
-        section.appendChild(row);
-    })
-
-    displayDiv.append(section);
-
 }

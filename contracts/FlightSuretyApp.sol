@@ -40,8 +40,12 @@ contract FlightSuretyApp {
     struct Flight {
         uint256 arrivalTime;  
         uint256 flightStatus;
-        uint256 insuredAmount;      
+        uint256 maxIndividualInsuredAmount; 
+        uint256 maxTotalInsuredAmount;
+        mapping(address => uint256) accountInsuredAmount;
+        
     }
+    
   
     /********************************************************************************************/
     /*                                       FUNCTION MODIFIERS                                 */
@@ -150,19 +154,24 @@ contract FlightSuretyApp {
         returns(
         uint256 arrivalT,
         uint256 status,
-        uint256 totalInsuredAmount
+        uint256 totalInsuredAmount,
+        uint256 individualFlightInsurees
         )
     {
         return (
             flights[flightCode].arrivalTime,
             flights[flightCode].flightStatus,
-            flights[flightCode].insuredAmount
+            flights[flightCode].maxIndividualInsuredAmount,
+            flights[flightCode].accountInsuredAmount[msg.sender]
         );
     }
 
-    function buyInsurance(address airlineAddress) public payable requireIsOperational {
+    function buyInsurance(bytes32 flightCode, address airlineAddress, uint256 amountBought) public payable requireIsOperational requireAddressIsAirline(airlineAddress) {
+        flights[flightCode].accountInsuredAmount[msg.sender] = amountBought;
         data.buy.value(msg.value)(airlineAddress);
     }
+
+    
    
    /**
     * @dev Add an airline to the registration queue
@@ -208,8 +217,9 @@ contract FlightSuretyApp {
                                 external
                                 requireIsOperational
     {  
+ 
         require(data.airlineRegistered(msg.sender), "This address is not registered, it can not log flights");
-        flights[flightNumber] =  Flight(date, STATUS_CODE_ON_TIME, 0);
+        flights[flightNumber] =  Flight(date, STATUS_CODE_ON_TIME, 0, 0);
         data.addFlightCode(flightNumber);
         emit RegisteredFlight(flightNumber, date);
     }

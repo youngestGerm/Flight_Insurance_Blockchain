@@ -8,7 +8,6 @@ export default class Contract {
 
     constructor(network, callback) {
         this._appAddress = Config[network].appAddress;
-        console.log(this._appAddress, "constructor")
         this.providers = new Web3.providers.HttpProvider('http://localhost:8545');
         this.web3 = new Web3(this.providers);
         this.flightSuretyApp = contract({abi : FlightSuretyApp.abi});
@@ -43,20 +42,30 @@ export default class Contract {
     async getFlightInformation(registeredAirline, flightCode) {
         const instance = await this.flightSuretyApp.at(this._appAddress);
         let flightNumberData = await instance.getFlightNumberFromData(web3.utils.fromAscii(flightCode), {from: registeredAirline});
-        console.log(flightNumberData["arrivalT"].toNumber(), flightNumberData["status"].toNumber(), flightNumberData["totalInsuredAmount"].toNumber());        
+    
+        return {
+            arrivalTime: flightNumberData["arrivalT"].toNumber(),
+            flightStatus: flightNumberData["status"].toNumber(), 
+            totalInsuredAmount: flightNumberData["totalInsuredAmount"].toNumber(), 
+            individualFlightInsurees: flightNumberData["individualFlightInsurees"].toNumber()
+        }
     }
 
-    async buyFlightInsurance(insuranceAmount, airlineAddress, registeredUserAddress) {
+    async buyFlightInsurance(insuranceAmount, flightCode, airlineAddress, registeredUserAddress) {
+
         const instance = await this.flightSuretyApp.at(this._appAddress);
-        await instance.buyInsurance(airlineAddress, {from: registeredUserAddress, value: insuranceAmount})
-        console.log("Bought flight insurance");
+        console.log(web3.utils.fromAscii(flightCode), flightCode, "flight code in bytes32")
+        let etherConversion = web3.utils.toWei(insuranceAmount, "ether")
+        
+        let f_number = web3.utils.padRight(web3.utils.fromAscii(flightCode), 34)
+
+        
+        await instance.buyInsurance(f_number, airlineAddress, insuranceAmount, {from: registeredUserAddress, value: etherConversion})
     }
     
 
     async registerFlight(flightNumber, flightTime, registeredAirline) {
-        console.log("in register flight")
-        let f_number = web3.utils.padRight(web3.utils.fromAscii(flightNumber), 34)
-    
+        let f_number = web3.utils.padRight(web3.utils.fromAscii(flightNumber), 34)    
         console.log(f_number, flightTime);
         const instance = await this.flightSuretyApp.at(this._appAddress);
         await instance.registerFlight(f_number, flightTime, {from: registeredAirline});
@@ -65,7 +74,7 @@ export default class Contract {
     async getRegisteredAirlines() {
         const instance = await this.flightSuretyApp.at(this._appAddress);
         let airlines = await instance.getRegisteredAirlinesArray();
-        console.log(airlines, "instance airlines return");
+        console.log(airlines, "These are the all the registered airlines");
         return airlines
     } 
 
@@ -78,7 +87,7 @@ export default class Contract {
     async fundAirline(address, callingAddress, airlineFundValue) {
         const instance = await this.flightSuretyApp.at(this._appAddress);
         await instance.fundAirline(address, {from: callingAddress, value: airlineFundValue});
-        console.log("funded Airline")
+        console.log("We have funded the airline")
     }
 
     // App Operationals
