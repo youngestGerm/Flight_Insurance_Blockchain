@@ -34,6 +34,7 @@ import './flightsurety.css';
         addOperationalEventListners(contract);
         addSubmitFlightEventListner(contract)
         addGetFlightsEventListner(contract);
+        addBuyInsuranceEventListner(contract);
     });
     
 
@@ -52,6 +53,24 @@ async function initializer(contract) {
  * Event Listners
  */ 
 
+/**
+ * 32ed
+ * 0xC484B3207CBd0C0dCb3Ec5e5839CE61e60EC1c56
+ * 1000000000000000000 (This is wei)
+ * December 17, 1995 03:24:00
+ */
+
+function addBuyInsuranceEventListner(contract) {
+    try {
+        DOM.elid("buy-insurance").addEventListener('click', async _ => {
+            console.log("in buy insurance")
+            
+            await contract.buyFlightInsurance(DOM.elid("insurance-amount").value, DOM.elid("flight-company").value, window.ethereum.selectedAddress);
+        })
+    
+    } catch {}
+    
+}
 
 function addGetFlightsEventListner(contract) {
     try {

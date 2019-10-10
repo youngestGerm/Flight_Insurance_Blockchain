@@ -160,8 +160,8 @@ contract FlightSuretyApp {
         );
     }
 
-    function buyInsurance(address airlineAddress) {
-        data.buy(airlineAddress).value(msg.value)(_address)
+    function buyInsurance(address airlineAddress) public payable requireIsOperational {
+        data.buy.value(msg.value)(airlineAddress);
     }
    
    /**
