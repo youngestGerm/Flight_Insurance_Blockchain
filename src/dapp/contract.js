@@ -41,12 +41,14 @@ export default class Contract {
 
     async getFlightInformation(registeredAirline, flightCode) {
         const instance = await this.flightSuretyApp.at(this._appAddress);
-        let flightNumberData = await instance.getFlightNumberFromData(web3.utils.fromAscii(flightCode), {from: registeredAirline});
+        let flightCodeToBytes = web3.utils.fromAscii(flightCode)
+        // console.log(flightCodeToBytes, "FC Bytes")
+        let flightNumberData = await instance.getFlightNumberFromData(flightCodeToBytes, {from: registeredAirline});
     
         return {
             arrivalTime: flightNumberData["arrivalT"].toNumber(),
             flightStatus: flightNumberData["status"].toNumber(), 
-            totalInsuredAmount: flightNumberData["totalInsuredAmount"].toNumber(), 
+            totalInsuredAmount: flightNumberData["totalIndividualInsuredAmount"].toNumber(), 
             individualFlightInsurees: flightNumberData["individualFlightInsurees"].toNumber()
         }
     }
@@ -54,13 +56,11 @@ export default class Contract {
     async buyFlightInsurance(insuranceAmount, flightCode, airlineAddress, registeredUserAddress) {
 
         const instance = await this.flightSuretyApp.at(this._appAddress);
-        console.log(web3.utils.fromAscii(flightCode), flightCode, "flight code in bytes32")
+        // console.log(web3.utils.fromAscii(flightCode), flightCode, "flight code in bytes32")
         let etherConversion = web3.utils.toWei(insuranceAmount, "ether")
-        
         let f_number = web3.utils.padRight(web3.utils.fromAscii(flightCode), 34)
-
-        
         await instance.buyInsurance(f_number, airlineAddress, insuranceAmount, {from: registeredUserAddress, value: etherConversion})
+        console.log("bought insurance")
     }
     
 

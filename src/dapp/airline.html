@@ -56,6 +56,21 @@
             <input type="text-in-airline" id= "flight-register" placeholder="Insert flight number here"> </input>
             <h6> Flight Time (December 17, 1995 03:24:00)</h6>
             <input type="text-in-airline" id= "flight-time" placeholder="Flight time (e.g. December 17, 1995 03:24:00)"> </input>
+            <h6> Maximum Insurance Amount </h6>
+            <div>
+                <input type="text-in-airline" id= "flight-max-insurance-amount" placeholder="Maximum Insurance Amount"> </input> 
+                <label> ETH</label>
+            </div>
+            
+            <h6> Flight Status </h6>
+            <p id="flight-status-code-information"> STATUS_CODE_UNKNOWN = 0 </p>
+            <p id="flight-status-code-information"> STATUS_CODE_ON_TIME = 10 </p>
+            <p id="flight-status-code-information"> STATUS_CODE_LATE_AIRLINE = 20 </p>
+            <p id="flight-status-code-information"> STATUS_CODE_LATE_WEATHER = 30 </p>
+            <p id="flight-status-code-information"> STATUS_CODE_LATE_TECHNICAL = 40 </p>
+            <p id="flight-status-code-information"> STATUS_CODE_LATE_OTHER = 50 </p>
+
+            <input type="text-in-airline" id= "flight-status" placeholder="Look at the codes above"> </input>
             <div style="text-align:center;">    
                 <btn class = "btn btn-primary" id="submit-flight-info"> Submit Flight Information </btn>
             </div>

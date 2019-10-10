@@ -154,7 +154,7 @@ contract FlightSuretyApp {
         returns(
         uint256 arrivalT,
         uint256 status,
-        uint256 totalInsuredAmount,
+        uint256 totalIndividualInsuredAmount,
         uint256 individualFlightInsurees
         )
     {
@@ -167,7 +167,7 @@ contract FlightSuretyApp {
     }
 
     function buyInsurance(bytes32 flightCode, address airlineAddress, uint256 amountBought) public payable requireIsOperational requireAddressIsAirline(airlineAddress) {
-        flights[flightCode].accountInsuredAmount[msg.sender] = amountBought;
+        flights[flightCode].accountInsuredAmount[msg.sender] = flights[flightCode].accountInsuredAmount[msg.sender] + amountBought;
         data.buy.value(msg.value)(airlineAddress);
     }
 

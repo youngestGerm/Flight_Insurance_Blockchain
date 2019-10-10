@@ -65,9 +65,7 @@ async function initializer(contract) {
 function addBuyInsuranceEventListner(contract) {
     try {
         DOM.elid("buy-insurance").addEventListener('click', async _ => {
-
             await contract.buyFlightInsurance(DOM.elid("insurance-amount").value, DOM.elid("flight-number").value, DOM.elid("flight-company").value, window.ethereum.selectedAddress);            
-            
         })
     } catch {}
     
@@ -159,17 +157,20 @@ function displayAirlines(idType, results) {
 // Create a function that displays the passenger insurances bought
 function displayBoughtInsurance(idType, results) {
     let displayDiv = DOM.elid("display-wrapper-bought-insurance");
+    displayDiv.innerHTML = "";
     let section = DOM.section();
     // console.log(results[0].value)
     results.map(result => {
         console.log(result, "result")
         for (let key in result) {
+            console.log(result[key], "results")
             let rowArrivalTime = new Date(result[key].arrivalTime);
-            
             let rowFlightStatus = result[key].flightStatus;
-            let rowIndividualFlightInsurees = result[key].individualFlightInsurees;
             let rowTotalInsuredAmount = result[key].totalInsuredAmount;
-            let row = section.appendChild(DOM.div({className: 'col-sm-8 field-value', id: idType}, `Arrival Time: ${rowArrivalTime.toString()}, Flight Status: ${rowFlightStatus}, Flight Insurees: ${rowIndividualFlightInsurees}, Total Insured Amount: ${rowTotalInsuredAmount}`))
+            let rowIndividualFlightInsurees = result[key].individualFlightInsurees;
+            
+
+            let row = section.appendChild(DOM.div({className: 'col-sm-8 field-value', id: idType}, `Arrival Time: ${rowArrivalTime.toString()}, Flight Status: ${rowFlightStatus}, Flight Maximum Individual Insured Amount: ${rowTotalInsuredAmount} ETH, Your Bought Insured Amount: ${rowIndividualFlightInsurees} ETH`))
 
             section.appendChild(row);
         }

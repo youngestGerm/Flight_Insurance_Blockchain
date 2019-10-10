@@ -151,6 +151,9 @@ section {
     font-size: 18px;
 }
 
+
+
+
 /* END */
 
 /* Inputs */
@@ -185,7 +188,9 @@ input[type = text-in-passenger] {
 #insurance-amount{
     width: 93%;
 }
-
+#flight-max-insurance-amount {
+    width: 93%;
+}
 /* #airline-fund-address {
     width: 100%;
 }
@@ -202,4 +207,10 @@ input[type = text-in-passenger] {
 ::placeholder {
     color:rgb(0, 0, 0);
     opacity: 1;
+}
+
+/* Paragraphs */
+
+#flight-status-code-information {
+    opacity: 0.8;
 }
