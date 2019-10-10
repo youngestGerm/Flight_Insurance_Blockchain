@@ -205,12 +205,13 @@ contract FlightSuretyData {
     *
     */   
 
-    function buy(string airlineAddress)
+    function buy(address airlineAddress)
                             external
                             payable
+                            requireIsOperational
     {
-        // require(msg.value != 0, "Value sent is zero");
-        // airlines[airlineAddress].numberOfInsurance = airlines[airlineAddress].numberOfInsurance + 1;
+        
+        airlines[airlineAddress].numberOfInsurance = airlines[airlineAddress].numberOfInsurance + 1;
     }
 
     /**

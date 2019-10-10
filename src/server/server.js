@@ -1,4 +1,5 @@
 import FlightSuretyApp from '../../build/contracts/FlightSuretyApp.json';
+import FlightSuretyData from '../../build/contracts/FlightSuretyData.json';
 import Config from './config.json';
 import Web3 from 'web3';
 import express from 'express';
@@ -12,6 +13,7 @@ let web3 = new Web3(new Web3.providers.WebsocketProvider(config.url.replace('htt
 web3.eth.defaultAccount = web3.eth.accounts[0];
 
 let flightSuretyApp = new web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
+let flightSuretyData = new web3.eth.Contract(FlightSuretyData.abi, config.dataAddress);
 
 /** Event values
      * index: `uint8 index = getRandomIndex(msg.sender);`
@@ -38,6 +40,11 @@ flightSuretyApp.events.RegisteredAirline((err, results) => {
 })
 
 flightSuretyApp.events.RegisteredFlight((err, results) => {
+  console.log("\x1b[44m%s\x1b[0m", "Registered Flight", results.event, results.returnValues, "*******Event Return Value********")
+})
+
+flightSuretyData.events.AirlineFunded((err, results) => {
+  console.log("data events")
   console.log("\x1b[44m%s\x1b[0m", "Registered Flight", results.event, results.returnValues, "*******Event Return Value********")
 })
 

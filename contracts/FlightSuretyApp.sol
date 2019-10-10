@@ -150,7 +150,7 @@ contract FlightSuretyApp {
         returns(
         uint256 arrivalT,
         uint256 status,
-        uint256 insuredAmount
+        uint256 totalInsuredAmount
         )
     {
         return (
@@ -158,6 +158,10 @@ contract FlightSuretyApp {
             flights[flightCode].flightStatus,
             flights[flightCode].insuredAmount
         );
+    }
+
+    function buyInsurance(address airlineAddress) {
+        data.buy(airlineAddress).value(msg.value)(_address)
     }
    
    /**

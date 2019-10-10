@@ -43,9 +43,14 @@ export default class Contract {
     async getFlightInformation(registeredAirline, flightCode) {
         let instance = await this.flightSuretyApp.at(this._appAddress);
         let flightNumberData = await instance.getFlightNumberFromData(web3.utils.fromAscii(flightCode), {from: registeredAirline});
-        console.log(flightNumberData["arrivalT"].toNumber(), flightNumberData["status"].toNumber(), flightNumberData["insuredAmount"].toNumber());        
+        console.log(flightNumberData["arrivalT"].toNumber(), flightNumberData["status"].toNumber(), flightNumberData["totalInsuredAmount"].toNumber());        
     }
 
+    async buyFlightInsurance(insuranceAmount, airlineAddress, registeredUserAddress) {
+        let instance = this.flightSuretyApp.at(this._appAddress);
+        
+        await instance.buy(airlineAddress, {from: registeredUserAddress, value: insuranceAmount})
+    }
     
 
     async registerFlight(flightNumber, flightTime, registeredAirline) {
