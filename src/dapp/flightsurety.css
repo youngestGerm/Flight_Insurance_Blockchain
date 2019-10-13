@@ -185,10 +185,7 @@ input[type = text-in-passenger] {
     margin: 10px;   
 }
 
-#insurance-amount{
-    width: 93%;
-}
-#flight-max-insurance-amount {
+#max-individual-insurance-amount, #max-total-insurance-amount, #insurance-amount {
     width: 93%;
 }
 /* #airline-fund-address {

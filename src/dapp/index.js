@@ -65,7 +65,7 @@ async function initializer(contract) {
 function addBuyInsuranceEventListner(contract) {
     try {
         DOM.elid("buy-insurance").addEventListener('click', async _ => {
-            await contract.buyFlightInsurance(DOM.elid("insurance-amount").value, DOM.elid("flight-number").value, DOM.elid("flight-company").value, window.ethereum.selectedAddress);            
+            await contract.buyFlightInsurance(DOM.elid("insurance-amount").value, DOM.elid("flight-number").value, window.ethereum.selectedAddress);            
         })
     } catch {}
     
@@ -86,7 +86,8 @@ function addSubmitFlightEventListner(contract) {
     try {
         document.getElementById('submit-flight-info').addEventListener('click', async _ => {
             let computerReadableDate = new Date(DOM.elid('flight-time').value).valueOf()
-            await contract.registerFlight(DOM.elid('flight-register').value, computerReadableDate, window.ethereum.selectedAddress)
+            
+            await contract.registerFlight(DOM.elid('flight-register').value, computerReadableDate, DOM.elid('flight-status').value, DOM.elid('max-individual-insurance-amount').value, DOM.elid('max-total-insurance-amount').value, window.ethereum.selectedAddress)
         })
     } catch {}
 }

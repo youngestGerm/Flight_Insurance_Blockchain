@@ -38,6 +38,7 @@ contract FlightSuretyApp {
     event RegisteredFlight(bytes32 flightNumber, uint256 date);
 
     struct Flight {
+        address airlineAddress;
         uint256 arrivalTime;  
         uint256 flightStatus;
         uint256 maxIndividualInsuredAmount; 
@@ -155,14 +156,16 @@ contract FlightSuretyApp {
         uint256 arrivalT,
         uint256 status,
         uint256 totalIndividualInsuredAmount,
-        uint256 individualFlightInsurees
+        uint256 individualFlightInsurees,
+        address airlineCompanyAddress
         )
     {
         return (
             flights[flightCode].arrivalTime,
             flights[flightCode].flightStatus,
             flights[flightCode].maxIndividualInsuredAmount,
-            flights[flightCode].accountInsuredAmount[msg.sender]
+            flights[flightCode].accountInsuredAmount[msg.sender],
+            flights[flightCode].airlineAddress
         );
     }
 
@@ -203,23 +206,33 @@ contract FlightSuretyApp {
     }
    /**
     * @dev Register a future flight for insuring.
-    *int256 arrivalTime;  
+    * struct Flight {
+        uint256 arrivalTime;  
         uint256 flightStatus;
-        uint256 insuredAmount; 
+        uint256 maxIndividualInsuredAmount; 
+        uint256 maxTotalInsuredAmount;
+        mapping(address => uint256) accountInsuredAmount;
+        
+    }
     */  
     
+
+
     function registerFlight
                                 (
                                     bytes32 flightNumber,
-                                    uint256 date
-
+                                    uint256 date,
+                                    uint256 flightStatus,
+                                    uint256 maxIndividualInsuredAmount,
+                                    uint256 maxTotalInsuredAmount
                                 )
                                 external
+                                requireAddressIsAirline(msg.sender)
                                 requireIsOperational
     {  
  
         require(data.airlineRegistered(msg.sender), "This address is not registered, it can not log flights");
-        flights[flightNumber] =  Flight(date, STATUS_CODE_ON_TIME, 0, 0);
+        flights[flightNumber] =  Flight(msg.sender, date, flightStatus, maxIndividualInsuredAmount, maxTotalInsuredAmount);
         data.addFlightCode(flightNumber);
         emit RegisteredFlight(flightNumber, date);
     }
