@@ -23,10 +23,27 @@ header a:hover {
     font-weight: bold;
 }
 
+.nav_logo_title {
+    color: #1E2A3B;
+    font-family: "Arial Rounded MT Bold";
+}
+.site-nav__name {
+    float:left;
+    margin: 20px;
+}
+.site-nav__name-link__name {
+    margin-left: 20px;
+    float:right;
+}
+/* Spans */
+
+.icon_span {
+    margin: 0px;
+}
 
 /* END */
 body {
-    background-image: url('flight.jpg'); /* Source: iStockPhoto */
+    
     background-repeat: no-repeat;
     background-size: cover;
 }
