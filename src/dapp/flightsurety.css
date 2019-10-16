@@ -7,20 +7,12 @@ header li {
     float: right;
 }
 header a {
-    color: white;
     font-size: 20px;
-    
-}
-header ul{
-    /* margin-top: 15px; */
-    position: absolute;
-    right: 10%;
-    top: 10%;
 }
 
-header a:hover {
-    color: #cccccc;
-    font-weight: bold;
+
+.nav_logo_title:hover {
+    color: #5ABD6E;
 }
 
 .nav_logo_title {
@@ -35,6 +27,42 @@ header a:hover {
     margin-left: 20px;
     float:right;
 }
+.site-nav-heading-passenger, .site-nav-heading-airline, .site-nav-heading-admin {
+    font-family: "Messina Sans Trial";
+    font-weight: bold;
+    color: #1E2A3B;
+    font-size: 17px;
+}
+.passenger_div {
+    border: 1px;
+    display: none;
+}
+.site-nav__link-item:hover {
+    display: block;
+
+}
+
+#passenger:hover {
+    outline: 0;
+    text-decoration: none;
+    display: block;
+    border-bottom: 2px solid #9A8167;
+}
+
+#airline:hover {
+    outline: 0;
+    text-decoration: none;
+    display: block;
+    border-bottom: 2px solid #A15289;
+}
+
+#admin:hover {
+    outline: 0;
+    text-decoration: none;
+    display: block;
+    border-bottom: 2px solid #0e7fa8;
+}
+
 /* Spans */
 
 .icon_span {
@@ -119,10 +147,10 @@ body {
 
 /* Headings */
 
-h1 {
+/* h1 {
     color: rgb(249, 199, 199);
     opacity: 0.8;
-}
+} */
 
 h4 {
     color: rgb(249, 199, 199);
