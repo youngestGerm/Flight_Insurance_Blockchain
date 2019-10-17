@@ -27,40 +27,22 @@ header a {
     margin-left: 20px;
     float:right;
 }
-.site-nav-heading-passenger, .site-nav-heading-airline, .site-nav-heading-admin {
+.site-nav-heading {
     font-family: "Messina Sans Trial";
     font-weight: bold;
     color: #1E2A3B;
     font-size: 17px;
+    margin-top: 30px;
 }
 .passenger_div {
     border: 1px;
     display: none;
 }
-.site-nav__link-item:hover {
-    display: block;
-
-}
-
-#passenger:hover {
+.site-nav-a:hover {
     outline: 0;
     text-decoration: none;
     display: block;
     border-bottom: 2px solid #9A8167;
-}
-
-#airline:hover {
-    outline: 0;
-    text-decoration: none;
-    display: block;
-    border-bottom: 2px solid #A15289;
-}
-
-#admin:hover {
-    outline: 0;
-    text-decoration: none;
-    display: block;
-    border-bottom: 2px solid #0e7fa8;
 }
 
 /* Spans */

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>FlightSurety</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 
 <body>
@@ -25,12 +24,12 @@
             </div>
             
             <ul>
-                <li>
+                <li class="current">
                     <a class = "site-nav-a" href="about.html"> 
                         <h1 class= "site-nav-heading">About</h1>
                     </a>
                 </li>
-                <li class="current">
+                <li>
                     <a class = "site-nav-a" href="passenger.html"> 
                         <h1 class= "site-nav-heading">Passenger Functions</h1>
                     </a>
@@ -47,50 +46,12 @@
 
                 
             </ul>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+           
         </nav>
     </header>
     
-    <main class="container3">
-        <h1> Passenger - Buy Insurance </h1>
-        <section>
-            <h4> Flight Code 32ed </h4>
-            <input type = "text-in-passenger" id="flight-number" placeholder="TL112"> </input>
-        </section>
-        
-        
-        <section>
-            <h4> Insurance Amount </h4>
-            
-            <div>
-                <input type = "text-in-passenger" id="insurance-amount" placeholder="0"> </input>
-                ETH
+    
 
-            </div>
-            
-            <div class= "passenger-buttons" style="text-align:center;">    
-                <btn class = "btn btn-primary" id="get-flights"> Get Flights </btn>
-                <btn class = "btn btn-primary" id="buy-insurance"> Buy Insurance </btn>
-            </div>
-        </section>
-
-
-        <section>
-
-            <!-- Set up the update on the front page so that the user knows he has bought insurance.  -->
-            <h4> User Flight Insurances </h4>
-            <!-- Add a functionality that allows the user to check how many insurances he has. -->
-            <div id= "display-wrapper-bought-insurance"></div>
-        </section>
-
-
-
-
-
-    </main>
 </body>
 
 </html>

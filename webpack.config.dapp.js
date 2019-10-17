@@ -52,6 +52,10 @@ module.exports = {
     new HtmlWebpackPlugin({ 
       filename: 'passenger.html',
       template: path.join(__dirname, "src/dapp/passenger.html")
+    }),
+    new HtmlWebpackPlugin({ 
+      filename: 'about.html',
+      template: path.join(__dirname, "src/dapp/about.html")
     })
   ],
   resolve: {
