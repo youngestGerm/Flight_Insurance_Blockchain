@@ -1,6 +1,6 @@
-# FlightSurety
+# Flight Insurance Blockchain App
 
-FlightSurety is a sample application project for Udacity's Blockchain course. Note that is project is highly theoretical and is hard/ tedious to implement for pratical deployment. Theoretical in this sense means that many tests for different functionalities have been established, but they have not yet been implemented via the front end. The hardest part of the project would be to establish the tests in the front end, that would be the final goal.
+I recreated a project that was for Udacity's Blockchain course to incorporate different aspects of how blockchain can dramatically improve certain business structures (in this case it was the flight insurance industry). Note that this project is highly theoretical and I do not intend on creating a company that automates flight insurances. However, this idea can be expanded upon in the sense that only the core contract functions have been developed in this specific business niche. The business market demands autonomy (creating efficiency for both companies and consumers), hence this is why I decided to endeavor further into the functionalities of this project.
 
 ## Install
 
