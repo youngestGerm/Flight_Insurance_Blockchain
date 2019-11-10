@@ -44,29 +44,29 @@
                     </a>
                 </li>
 
-                
+<!--                 
             </ul>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+            </button> -->
         </nav>
     </header>
     
     
     <!-- class is accessible in css, id is accessible in js -->
-    <main class="container1">
+    <main class="main_container">
         <h1> Admin Functions </h1>
-
+        <h6> These buttons below allow the contract deployer to stop the operation of the contract if something unexpected occurs. This might include exploiters utilizing a mistake made in the code, in which case the contract owner should fix. There are many instances in which this has occured creating widespan panic, such as the DAO attack.</h6>
         <section>
             <h4>App Contract Operational Status</h4>
-            <div class = "col-sm-8 field-value" id = "app-operational-status-message"> </div>
-            <div class="row top-19"> <btn class="btn btn-primary" id="app-operational-status-on">Turn App Operational Status On</btn> <btn class="btn btn-primary" id="app-operational-status-off">Turn App Operational Status Off</btn> </div>
+            <h6> These buttons control the front end data collection which can be manipulated </h6>
+            <div class="row btn_container"> <btn class="btn-primary" id="app-operational-status-on">Turn App Operational Status On</btn> <btn class="btn-primary" id="app-operational-status-off">Turn App Operational Status Off</btn> </div>
         </section>
         <section>
             <h4>Data Contract Operational Status</h4>
-            <div class = "col-sm-8 field-value" id = "data-operational-status-message"> </div>
-            <div class="row top-19"> <btn class="btn btn-primary" id="data-operational-status-on">Turn Data Operational Status On</btn> <btn class="btn btn-primary" id="data-operational-status-off">Turn Data Operational Status Off</btn> </div>
+            <h6> These buttons control the back end data collection </h6>
+            <div class="row btn_container"> <btn class="btn-primary" id="data-operational-status-on">Turn Data Operational Status On</btn> <btn class="btn-primary" id="data-operational-status-off">Turn Data Operational Status Off</btn> </div>
         </section>
 
         <!-- <div class="row top-20"> <h6 class="register-form">Register Airline </h6> </div>     -->
@@ -75,7 +75,7 @@
         
         <section>
             <h4>Input Flight</h4>
-            <div id= "input-flight-ID-div"> <input type="text" id="flight-number" placeholder="Flight number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn> </div>
+            <div id= "input-flight-ID-div"> <input type="text" id="flight-number" placeholder="Flight number"> <btn class="btn-primary" id="submit-oracle">Submit to Oracles</btn> </div>
         </section>
         <!-- Move this code down to an appropriate `main class` in the future -->
        

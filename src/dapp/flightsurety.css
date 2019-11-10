@@ -58,44 +58,35 @@ body {
     background-size: cover;
 }
 
-.container1 {
+.main_container {
     margin-top: 200px;
-    background-color: rgb(0, 0, 0);
-    opacity: 0.8;
     color: #fff;
     padding: 50px;
     margin: 100px;
 }
 
-.container2 {
-    margin-top: 200px;
-    background-color: rgb(0, 0, 0);
-    opacity: 0.8;
-    color: #fff;
-    padding: 50px;
-    margin: 100px;
-
-}
-
-.container3 {
-    margin-top: 200px;
-    background-color: rgb(0, 0, 0);
-    opacity: 0.8;
-    color: #fff;
-    padding: 50px;
-    margin: 100px;
-}
 
 /* Buttons */
 .btn-primary {
     margin: auto;
     opacity: 0.9;
+    padding: 5px;
+    background-color: white;
+    color: black;
+    font-family: "Messina Sans Trial";
+    font-weight: bold;
+    font-size: 15px;
+
 }
 
+#get-flights {
+    margin-top: 20px;
+}
+/* 
 #data-operational-status-on { margin-top: 30px; }
 #data-operational-status-off { margin-top: 30px; }
 #app-operational-status-on { margin-top: 30px; }
-#app-operational-status-off { margin-top: 30px; }
+#app-operational-status-off { margin-top: 30px; } */
 
 #submit-airline { 
     margin-top: 10px;
@@ -117,13 +108,11 @@ body {
 /* Divs */
 /* Note that the margin is top, right, bot, left */
 
-/* .top-20 {
-    margin-top: 20px;
-} */
-#input-flight-ID-div { margin-top: 30px; }
 
-.top-21 {
-    margin-top: 40px;
+
+
+.btn_container {
+    margin-top: 20px;
 }
 /* END */
 
@@ -134,18 +123,22 @@ body {
     opacity: 0.8;
 } */
 
+
+h1 {
+    color: black;
+}
 h4 {
-    color: rgb(249, 199, 199);
-    opacity: 0.8;
+    color: black;
 }
 
 h5 {
-    color: rgb(249, 199, 199);
-    opacity: 0.8;
+    color: black;
 }
 
 h6 {
-    opacity: 0.8;
+    color: black;
+    opacity: .3;
+    font-size: 13px;
 }
 
 /* END */
@@ -208,9 +201,6 @@ input[type = text-in-passenger] {
     width: 100%
 }
 
-.passenger-buttons btn{
-    margin: 10px;   
-}
 
 #max-individual-insurance-amount, #max-total-insurance-amount, #insurance-amount {
     width: 93%;
